@@ -242,6 +242,23 @@ The proof is left as an exercise (see \autoref{ex:elgamal-hiding}).
 \end{mysolution}
 \fi
 
+\begin{exercise}[Optional]
+  Knowledge of the discrete logarithm $x$ such that $g^x = h$ allows efficiently producing a Pedersen commitment $C$ such that $\algo{Commit}(\params, m, r) = \algo{Commit}(\params, mx \bmod p, r - 1 \bmod p)$.
+  Why does this not violate \autoref{thm:pedersen-binding}?
+  
+  Hint: We have the relationship $g^m h^r = g^m (g^x)^r = g^{m + xr} = g^{mx} (g^x)^{r-1} = g^{mx} h^{r-1}$.
+\end{exercise}
+
+\ifsolutions
+\begin{mysolution}
+  This does not violate the binding theorem because knowing $x = \log_g h$ means the DL problem has been solved for this instance.
+  The binding theorem only claims that \emph{if} the DL problem is hard, \emph{then} the commitment scheme is binding.
+  Since the hypothesis is not satisfied, the theorem makes no claim about binding.
+  
+  This highlights that Pedersen commitments rely crucially on the setup assumption that no one knows the discrete logarithm relationship between $g$ and $h$.
+\end{mysolution}
+\fi
+
 \begin{exercise}\label{ex:pedersen-hiding}
   Prove that Pedersen commitments are perfectly hiding (\autoref{thm:pedersen-hiding}).
 \end{exercise}
