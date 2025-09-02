@@ -13,19 +13,16 @@ This workbook primarily contains definitions, propositions, and lemmas, with lim
 Good cryptography papers should include intuition, but it's never complete: intuition is inherently subjective and what makes sense to one reader may not resonate with another.
 What you need to do is develop your own explanations while reading the mathematics very precisely.
 The goal of this workbook is to build intuition step-by-step through the exercises, which provide hands-on experience with the theoretical concepts.
+Some of the most illuminating moments come when we examine how security proofs break after making seemingly minor changes to either the security definition or the cryptographic scheme; these failures reveal the precise assumptions and techniques that make the proofs work.
 
 Note that there is rarely a single standard definition for a concept in cryptography.
 Sometimes we encounter equivalent definitions in the literature, while other times we find definitions that differ in subtle but important ways.
 This is why contemporary papers in cryptography include a preliminaries section that rigorously defines the concepts they use.
 
-% REQUIREMENTS:
-% basic sets
-% modular arithmetic
-% proof by contraposition
-% basic probability and union bound
-% good to have seen before:
-% negligible functions
-% \ppt algorithms
+\subsection{Prerequisites}
+
+This workbook assumes familiarity with basic set notation, operations in $\ZZ_p$, cyclic groups, elementary probability theory (including conditional probability and the union bound), and proof by contraposition.
+See Appendix~\ref{sec:notation} for a summary of the notation used throughout this book.
 
 \subsection{Algorithms}
 
