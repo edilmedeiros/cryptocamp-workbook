@@ -300,6 +300,8 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
 
 \begin{exercise}\label{ex:schnorr-to-single}
   Prove \autoref{lem:schnorr-to-single} using the games in \autoref{fig:schnorr-reduction}.
+  
+  Hint: Relate $\game{\Game~\algo{EUF-CMA}}{\algo{SchnorrSig}}$ and $\game{\algo{Single}}{\algo{InpGen}}[\bdv]$, then $\game{\algo{Single}}{\algo{InpGen}}[\bdv]$ and $\game{\algo{Single}}{\algo{InpGen}}[\cdv]$.
 \end{exercise}
 
 \ifsolutions
