@@ -2,7 +2,7 @@
 We use \emph{reductions} to relate the hardness of winning various games.
 To show that problem $Y$ is at least as hard as problem $X$, we construct a reduction: a \ppt algorithm that solves $X$ using any algorithm that solves $Y$ as a subroutine.
 This reduces problem $X$ to $Y$: if there were an efficient algorithm that solves $Y$, we would also have an efficient algorithm that solves $X$.
-By contrapositive, if $X$ is hard, then $Y$ must also be hard.
+By contrapositive, if there is no efficient solver for $X$, then there is no efficient solver for $Y$.\footnote{Equivalently, cryptographers sometimes say that the security of $Y$ reduces to the security of $X$.}
 
 We illustrate the concept of reductions through a series of examples.
 
