@@ -144,7 +144,8 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
   \begin{itemize}
     \item $\algo{SchnorrSig}$ does not use key prefixing.
     \item You only need to use the signing oracle once.
-    \item Pick a tweak $t$ and look at the Schnorr verification equation for a signature $(R, s)$ under public key $X$. Compute $s'$ by adding a value to $s$ such that $(R, s')$ is a valid signature for $\algo{TwPK}(X, t)$.
+    \item For simplicity, use tweaks $t_0 = (0, 1)$ and $t_1 = (1, 1)$.
+    \item Look at the Schnorr verification equation for a signature $(R, s)$ under public key $\algo{TwPK}(X, t_0)$. Compute $s'$ by adding a value to $s$ such that $(R, s')$ is a valid signature for $\algo{TwPK}(X, t_1)$.
   \end{itemize}
 \end{exercise}
 
@@ -158,12 +159,12 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
         \begin{pchstack}[center]
           \procedure{Adversary $\adv^{\pcoracle{Sign}}(\params, X)$}{%
             m \sample \{0,1\}^* \\
-            \tau_0 \defeq (0, 1) \\
-            (R, s) \gets \pcoracle{Sign}(m, \tau_0) \\
+            t_0 \defeq (0, 1) \\
+            (R, s) \gets \pcoracle{Sign}(m, t_0) \\
             c \defeq \algo{H}(R, m) \\
             s' \defeq s + c \\
-            \tau^* \defeq (1, 1) \\
-            \pcreturn (m, \tau^*, (R, s'))
+            t^* \defeq (1, 1) \\
+            \pcreturn (m, t^*, (R, s'))
           }
         \end{pchstack}
       \end{tcolorbox}
@@ -174,13 +175,13 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
 
   \textbf{Why this attack succeeds:}
   
-  When querying the signing oracle with $\tau_0 = (0, 1)$:
+  When querying the signing oracle with $t_0 = (0, 1)$:
   \begin{itemize}
     \item The tweaked public key is $\algo{TwPK}(X, (0, 1)) = g^0 \cdot X^1 = X$ (the original key).
     \item The signature $(R, s)$ satisfies: $g^s = R \cdot X^c$ where $c = \algo{H}(R, m)$.
   \end{itemize}
   
-  For the forgery with $\tau^* = (1, 1)$:
+  For the forgery with $t^* = (1, 1)$:
   \begin{itemize}
     \item The tweaked public key is $\algo{TwPK}(X, (1, 1)) = g^1 \cdot X = g \cdot X$.
     \item The game verifies: $g^{s'} = g^{s + c} \stackrel{?}{=} R \cdot \algo{TwPK}(X, (1, 1))^c$.
