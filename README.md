@@ -1,6 +1,28 @@
 # Crypto Workbook
 
-## Compiling
+## Build instructions
+
+### Dependencies
+
+You will need various LaTex dependencies in order to build the workbook. Here are the packages on various distributions.
+
+#### Debian / Ubuntu
+
+```
+apt install latexmk texlive-publishers texlive-bibtex-extra texlive-science biber
+```
+
+#### Arch
+
+```
+pacman -S texlive-binextra texlive-publishers texlive-bibtexextra texlive-mathscience texlive-latexextra texlive-latexrecommended biber
+```
+
+#### NixOS
+
+TODO
+
+### Compiling
 
 ```sh
 latexmk             # Compile the document
