@@ -20,7 +20,9 @@ pacman -S texlive-binextra texlive-publishers texlive-bibtexextra texlive-mathsc
 
 #### NixOS
 
-TODO
+```
+nix shell nixpkgs#texlive.combined.scheme-full
+```
 
 ### Compiling
 
