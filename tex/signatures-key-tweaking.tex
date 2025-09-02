@@ -404,6 +404,12 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
 \fi
 
 \begin{exercise}[Optional]
+  The security model of the MuSig2 multisignature scheme~\cite{C:NicRufSeu21} does not take key tweaking into account.
+  However, the BIP MuSig2 specification~\cite{add:bip-musig2} allows for tweaking individual keys (see ``Signing with Tweaked Individual Keys'').
+  What problem occurs when using tweaked keys with ``vanilla'' MuSig2 and how was it fixed?
+\end{exercise}
+
+\begin{exercise}[Optional]
   Read about signatures with re-randomizable keys in Section 3 of Fleischhacker et al.~\cite{PKC:FKMSSS16}, which presents a notion closely related to key tweaking.
   Compare their security model with the EUF-CMA-TK model discussed in this section and discuss the practical impact.
   How can they prove security for Schnorr signatures with re-randomized keys without requiring public key prefixing?
