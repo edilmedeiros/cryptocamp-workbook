@@ -80,7 +80,7 @@
 
 \begin{exercise}
   Let $\adv$ be an algorithm with access to a random oracle $\pcoracle{H}: \{0,1\}^* \to \{0,1\}^\secpar$.
-  The algorithm queries the random oracle with $x \in \{0,1\}^\secpar$.
+  The algorithm queries the random oracle exactly once with some $x \in \{0,1\}^\secpar$.
   What is $\Pr[\pcoracle{H}(x) = x]$?
   \begin{enumerate}
     \item $0$
@@ -100,7 +100,7 @@
 
 \begin{exercise}
   Let $p$ be a prime and let $\adv$ be an algorithm with access to a random oracle $\pcoracle{H}: \{0,1\}^* \to \ZZ_p$.
-  Before returning, the adversary queries the random oracle with distinct $x_1, x_2 \in \ZZ_p$ (in that order) and receives $y_1 = \pcoracle{H}(x_1)$, $y_2 = \pcoracle{H}(x_2)$.
+  The adversary queries the random oracle exactly twice with distinct $x_1, x_2 \in \ZZ_p$ (in that order) and receives $y_1 = \pcoracle{H}(x_1)$, $y_2 = \pcoracle{H}(x_2)$.
   What is $\Pr[y_2 = x_1 y_1 x_2^{-1}]$?
   \begin{enumerate}
     \item $0$
@@ -123,7 +123,7 @@
 \begin{exercise}
   Let $\gparam$ be a group description.
   Let $\adv$ be an algorithm with access to a random oracle $\pcoracle{H}: \{0,1\}^* \to \ZZ_p$ where $p$ is prime.
-  The adversary makes two distinct queries $(R_0, m_0)$ and $(R_1, m_1)$ where $R_i \in \GG$ and $m_i \in \{0,1\}^*$, receiving $y_0 = \pcoracle{H}(R_0, m_0)$ and $y_1 = \pcoracle{H}(R_1, m_1)$.
+  The adversary queries the random oracle exactly twice with $(R_0, m_0)$ and $(R_1, m_1)$ where $R_i \in \GG$ and $m_i \in \{0,1\}^*$, receiving $y_0 = \pcoracle{H}(R_0, m_0)$ and $y_1 = \pcoracle{H}(R_1, m_1)$.
   What is $\Pr[R_0 \cdot g^{y_0} \cdot R_1^{-1} = g^{y_1}]$?
   \begin{enumerate}
     \item $0$
