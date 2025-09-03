@@ -53,7 +53,7 @@ Before examining the consequences of random oracles, we present a simple lemma t
 
 
 \begin{lemma}\label{lem:ro-indistinguishable}
-  No adversary against $\algo{ROExample}$ can distinguish between being given $h = \pcoracle{H}(r)$ for a random $r$ and being given a uniformly random value from $S$, except with probability negligible in the number of oracle queries.
+  No adversary against $\algo{ROExample}$ making a polynomial number of queries can distinguish between being given $h = \pcoracle{H}(r)$ for a random $r$ and being given a uniformly random value from $S$, except with negligible probability.
   More precisely, let $\game{\Game~\algo{ROExample}}{}$ be as defined in \autoref{fig:ro-example}.
   For any adversary $\adv$ making $q$ queries to the random oracle $\pcoracle{H}$, we have
   \[
