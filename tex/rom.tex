@@ -137,7 +137,7 @@ Before examining the consequences of random oracles, we present a simple lemma t
   The hash commitment scheme $\algo{HashCom}[\algo{H}]$ is hiding in the random oracle model for $\algo{H}$.
   More precisely, for any algorithm $\adv$ making at most $q$ queries to $\algo{H}$,
   \[
-  \advantage{Hide}{\adv, \algo{HashCom}} \leq \frac{2q}{2^\secpar}.
+  \advantage{Hide}{\adv, \algo{HashCom}} \leq \frac{q}{2^\secpar}.
   \]
 \end{lemma}
 
@@ -240,7 +240,7 @@ Now consider the modified game shown in \autoref{fig:hashcom-hiding-rom-modified
 
 \begin{figure}[h]
   \begin{center}
-    \begin{tcolorbox}[width=8cm]
+    \begin{tcolorbox}[width=10cm]
       \begin{pchstack}
         \procedure[headlinesep=1pt]{$\game{\Game~\algo{ComHide}_1}{\algo{HashCom}}$}{%
           \params \gets \algo{Setup}(1^\secpar) \\
@@ -255,8 +255,7 @@ Now consider the modified game shown in \autoref{fig:hashcom-hiding-rom-modified
         }
         \pchspace
         \procedure[headlinesep=1pt]{Oracle $\pcoracle{H}(x)$}{%
-          \gamechange{$\pcassert x \neq m_0 \| r$} \\
-          \gamechange{$\pcassert x \neq m_1 \| r$} \\
+          \gamechange{$\pcassert \text{$x$ does not end with $r$}$} \\
           \pcif T[x] = \bot \pcthen \\
           \t T[x] \sample \{0,1\}^\secpar \\
           \pcreturn T[x]
@@ -273,22 +272,23 @@ Note that in $\game{\algo{ComHide}_1}{\algo{HashCom}}$, the value $b$ is indepen
 \Pr[\game{\algo{ComHide}_1}{\algo{HashCom}} = 1] = \frac{1}{2}
 \]
 
-The games differ only when $\adv$ queries either $m_0 \| r$ or $m_1 \| r$ to the oracle.
+The games differ only when $\adv$ queries some value to the oracle that ends with $r$.
+This is because in $\game{\algo{ComHide}}{\algo{HashCom}}$, the challenger queries $\pcoracle{H}(m_b \| r)$ to compute the commitment, while in $\game{\algo{ComHide}_1}{\algo{HashCom}}$, it samples $c'$ uniformly at random without querying the oracle.
+Since the distribution of the random oracle output is identical to the distribution of $c'$ when the adversary doesn't query a value ending with $r$, the games produce the same output except when the assertion is triggered.
 By the Difference Lemma (\autoref{lem:difference}), we can bound the difference between the games by the probability of this event:
 
 \begin{align*}
   \advantage{Hide}{\adv, \algo{HashCom}} &= \left|\Pr[\game{\algo{ComHide}}{\algo{HashCom}} = 1] - \frac{1}{2}\right| \\
   &= \left|\Pr[\game{\algo{ComHide}}{\algo{HashCom}} = 1] - \Pr[\game{\algo{ComHide}_1}{\algo{HashCom}} = 1]\right| \\
-  &\leq \Pr[\exists i \in [q] : x_i \in \{m_0 \| r, m_1 \| r\}]
+  &\leq \Pr[\exists i \in [q] : x_i \text{ ends with } r]
 \end{align*}
 
-Since $r$ is uniformly random from $\{0,1\}^\secpar$ and unknown to $\adv$, and the adversary knows both $m_0$ and $m_1$, we apply the union bound:
+Since $r$ is uniformly random from $\{0,1\}^\secpar$ and unknown to $\adv$, for any query $x_i$ chosen by the adversary, the probability that its last $\secpar$ bits equal $r$ is at most $1/2^\secpar$.
+By the union bound over all $q$ queries:
 
 \begin{align*}
-  \Pr[\exists i \in [q] : x_i \in \{m_0 \| r, m_1 \| r\}] &\leq \sum_{i=1}^q \Pr[x_i = m_0 \| r \text{ or } x_i = m_1 \| r] \\
-  &\leq \sum_{i=1}^q \left(\Pr[x_i = m_0 \| r] + \Pr[x_i = m_1 \| r]\right) \\
-  &= \sum_{i=1}^q \left(\frac{1}{2^\secpar} + \frac{1}{2^\secpar}\right) \\
-  &= \sum_{i=1}^q \frac{2}{2^\secpar} = \frac{2q}{2^\secpar}
+  \Pr[\exists i \in [q] : x_i \text{ ends with } r] &\leq \sum_{i=1}^q \Pr[x_i \text{ ends with } r] \\
+  &\leq \sum_{i=1}^q \frac{1}{2^\secpar} = \frac{q}{2^\secpar}
 \end{align*}
 \end{mysolution}
 \fi
