@@ -195,7 +195,7 @@ Unlike one-time signatures, the adversary can request signatures on multiple mes
       \end{pchstack}
     \end{tcolorbox}
   \end{center}
-  \caption{Security reduction for Schnorr signatures: EUF-CMA game (left), algorithm $\bdv$ (middle), and algorithm $\cdv$ (right). Changes from the previous game are marked with $\gamechange{$\cdot$}$.}
+  \caption{Security reduction for Schnorr signatures in the random oracle model: EUF-CMA game (left), algorithm $\bdv$ (middle), and algorithm $\cdv$ (right). Changes from the previous game are marked with $\gamechange{$\cdot$}$.}
   \label{fig:schnorr-reduction}
 \end{figure}
 
@@ -322,7 +322,7 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
     \item $\algo{InpGen}(1^\secpar)$ outputs $((\GG, p, g), X)$ where $X \sample \GG$, which has the same distribution as the key generation in $\game{\Game~\algo{EUF-CMA}}{\algo{SchnorrSig}}$ since $X = g^x$ for uniformly random $x \sample \ZZ_p$.
     \item The signatures output by the signing oracle have the same distribution in both games when event $E$ does not occur. To see why, let's examine how signatures are generated:
     \begin{itemize}
-      \item In $\game{\Game~\algo{EUF-CMA}}{\algo{SchnorrSig}}$: Sample $r \sample \ZZ_p$, compute $R = g^r$, set $c = \algo{H}(R, m)$, and output $(R,
+      \item In $\game{\Game~\algo{EUF-CMA}}{\algo{SchnorrSig}}$: Sample $r \sample \ZZ_p$, compute $R = g^r$, set $c = \algo{H}_{\mathsf{UF}}(R, m)$, and output $(R,
   s)$ where $s = r + x \cdot c$
       \item In $\bdv$: Sample $(c, s) \sample \ZZ_p \times \ZZ_p$, compute $R = g^s \cdot X^{-c}$, program $T_{\bdv}[(R, m)] = c$, and output $(R, s)$
     \end{itemize}
@@ -333,12 +333,12 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
       \item In $\bdv$: Starting from uniform $(c, s)$, we compute $R$ deterministically to satisfy the same equation
     \end{itemize}
 
-    Since there's a bijection between the randomness and valid signatures in both cases, and the oracle programming ensures $c = \algo{H}(R, m)$ when
+    Since there's a bijection between the randomness and valid signatures in both cases, and the oracle programming ensures $c = \pcoracle{H}_{\bdv}(R, m)$ when
   queried, both games produce identical signature distributions when $E$ does not occur.
-  \item The programmed oracle $\pcoracle{H}_{\bdv}$ is indistinguishable from the real random oracle $\pcoracle{H}$ when $E$ does not occur. The oracle
+  \item The programmed oracle $\pcoracle{H}_{\bdv}$ is indistinguishable from the real random oracle $\pcoracle{H}_{\mathsf{UF}}$ when $E$ does not occur. The oracle
   $\pcoracle{H}_{\bdv}$ returns either programmed values (for queries $(R, m)$ where $(R, s)$ was output by $\pcoracle{Sign}_{\bdv}(m)$) or fresh random
-  values from $\pcoracle{H}$. Since programmed values are chosen uniformly at random when signatures are created, all oracle responses are uniformly
-  distributed in $\ZZ_p$. The adversary can only distinguish between $\pcoracle{H}_{\bdv}$ and $\pcoracle{H}$ if it queries $\pcoracle{H}_{\bdv}((R, m))$
+  values. Since programmed values are chosen uniformly at random when signatures are created, all oracle responses are uniformly
+  distributed in $\ZZ_p$. The adversary can only distinguish between $\pcoracle{H}_{\bdv}$ and $\pcoracle{H}_{\mathsf{UF}}$ if it queries $\pcoracle{H}_{\bdv}((R, m))$
   before $\pcoracle{Sign}_{\bdv}(m)$ happens to generate the same $R$ – but this is precisely event $E$.
   \end{itemize}
 
