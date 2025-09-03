@@ -152,8 +152,68 @@
 \fi
 
 \begin{exercise}
-  TODO: Insert question about reading random oracle queries (table $T$), which is not possible with hash functions.
+  The following demonstrates how games in the random oracle model can examine the table $T$ of previous queries.
+  Let $\algo{H}$ be a random oracle mapping to $\{0,1\}^\secpar$ and let $\adv$ be an algorithm making at most $q_h$ queries to $\algo{H}$.
+  Let $\game{\Game~G}{}$ be the game defined in Figure~\ref{fig:quiz-ro-game}.
+  What is $\Pr[\game{G}{} = 1]$?
+  \begin{enumerate}
+    \item $0$
+    \item $1$
+    \item $\leq \frac{q_h}{2^\secpar}$
+    \item $\leq \frac{(q_h + 1) q_h}{2^\secpar}$
+  \end{enumerate}
 \end{exercise}
+
+\begin{figure}[tbhp]
+  \begin{center}
+    \begin{tcolorbox}[width=0.6\textwidth]
+      \begin{pchstack}[center]
+        \procedure[headlinesep=1pt]{$\game{\Game~G}{}$}{%
+          T \defeq \emptyset \\
+          (x, h) \gets \adv^{\pcoracle{H}}() \\
+          \pcif \pcoracle{H}(x) \neq h \pcthen \\
+          \t \pcreturn \pcfalse \\
+          \pcif \exists x' \neq x : T[x'] = h \pcthen \\
+          \t \pcreturn \pctrue \\
+          \pcreturn \pcfalse
+        }
+        \procedure[headlinesep=1pt]{Oracle $\pcoracle{H}(x)$}{%
+          \pcif T[x] = \bot \pcthen \\
+          \t T[x] \sample \{0,1\}^\secpar \\
+          \pcreturn T[x]
+        }
+      \end{pchstack}
+    \end{tcolorbox}
+  \end{center}
+  \caption{Game $\game{\Game~G}{}$ for random oracle quiz question}
+  \label{fig:quiz-ro-game}
+\end{figure}
+
+\ifsolutions
+\begin{mysolution}
+  The answer is (3).
+  
+  For the game to return $\pctrue$, two conditions must be satisfied:
+  \begin{enumerate}
+    \item $\pcoracle{H}(x) = h$ (the adversary's predicted hash value must be correct)
+    \item $\exists x' \neq x : T[x'] = h$ (there must be a collision: a different input $x'$ that was previously queried with the same hash $h$)
+  \end{enumerate}
+  
+  Since both conditions must hold:
+  \[\Pr[\game{G}{} = 1] \leq \Pr[\exists x' \neq x : \pcoracle{H}(x') = \pcoracle{H}(x)]\]
+  
+  The adversary makes at most $q_h$ queries during its execution, and the game makes one additional query $\pcoracle{H}(x)$.
+  So there are at most $q_h + 1$ total queries.
+  For each query, the probability of colliding with any of the at most $q_h$ entries already in the table is at most $\frac{q_h}{2^\secpar}$.
+  
+  By the union bound over all $q_h + 1$ queries:
+  \[
+    \Pr[\exists x' \neq x : \pcoracle{H}(x') = \pcoracle{H}(x)] \leq (q_h + 1) \cdot \frac{q_h}{2^\secpar}
+  \]
+  
+  Therefore, $\Pr[\game{G}{} = 1] \leq \frac{(q_h + 1)q_h}{2^\secpar}$.
+\end{mysolution}
+\fi
 
 \begin{exercise}
   Which of the following represents a gap between security proofs and real-world security?
