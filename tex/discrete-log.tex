@@ -273,7 +273,7 @@ The proof is left as an exercise (see \autoref{ex:elgamal-hiding}).
 \end{mysolution}
 \fi
 
-\begin{exercise}\label{ex:elgamal-hiding}
+\begin{exercise}[Optional]\label{ex:elgamal-hiding}
   Prove that ElGamal commitments are hiding under the DDH assumption (\autoref{thm:elgamal-hiding}).
 \end{exercise}
 
@@ -284,24 +284,26 @@ The proof is left as an exercise (see \autoref{ex:elgamal-hiding}).
   \begin{itemize}
     \item $\bdv$ receives $(\gparam, A, B, C)$ where $A = g^a$, $B = g^b$, and either $C = g^{ab}$ or $C = g^c$ for random $c$.
     \item $\bdv$ sets $h = B$ and gives $\params = (\gparam, h)$ to $\adv$.
-    \item When $\adv$ outputs $(m_0, m_1)$, $\bdv$ chooses $e \sample \{0, 1\}$ and computes:
-          If $C = g^{ab}$, set implicitly $r = a$, so $(g^r, h^{m_e + r}) = (g^a, g^{b(m_e + a)}) = (A, g^{bm_e + ab}) = (A, B^{m_e} \cdot C)$.
-          If $C = g^c$ for random $c$, then $(A, B^{m_e} \cdot C) = (g^a, g^{bm_e + c})$.
-    \item $\bdv$ gives $(A, B^{m_e} \cdot C)$ to $\adv$.
+    \item When $\adv$ outputs $(m_0, m_1)$, $\bdv$ chooses $e \sample \{0, 1\}$ and computes the commitment $(A, B^{m_e} \cdot C)$.
+    \item $\bdv$ gives this commitment to $\adv$.
     \item When $\adv$ outputs $e'$, $\bdv$ outputs $1$ if $e' = e$ and $0$ otherwise.
   \end{itemize}
 
-  Analysis: We have:
+  Analysis:
   \begin{itemize}
-      \item When $C = g^{ab}$ (real tuple): $\bdv$ perfectly simulates the hiding game, so $|\Pr[e = e' | C = g^{ab}] - \frac{1}{2}| = \advantage{Hide}{\adv, \algo{ElGamalCom}}$.
-      \item When $C = g^c$ (random tuple): The commitment reveals no information about $e$, so $\Pr[e = e' | C = g^c] = \frac{1}{2}$.
+      \item When $C = g^{ab}$ (real tuple): The commitment $(A, B^{m_e} \cdot C) = (g^a, g^{b \cdot m_e} \cdot g^{ab}) = (g^a, g^{b(m_e + a)}) = (g^a, h^{m_e + a})$.
+      This is a valid ElGamal commitment to $m_e$ with randomness $r = a$.
+      Thus $\bdv$ perfectly simulates the hiding game, so $\left|\Pr[e = e' | C = g^{ab}] - \frac{1}{2}\right| = \advantage{Hide}{\adv, \algo{ElGamalCom}}$.
+      \item When $C = g^c$ (random tuple): The commitment is $(A, B^{m_e} \cdot C) = (g^a, g^{bm_e + c})$.
+      Since $c$ is uniformly random and independent of everything else, the second component is uniformly random in $\GG$.
+      The commitment reveals no information about $e$, so $\Pr[e = e' | C = g^c] = \frac{1}{2}$.
   \end{itemize}
-  For the DDH advantage:
+  For the DDH advantage, let $d \in \{0, 1\}$ be the bit indicating whether the DDH tuple is real ($d = 1$ if $C = g^{ab}$, $d = 0$ if $C = g^c$), and let $d'$ be $\bdv$'s output bit.
+  Recall that $\bdv$ outputs $d' = 1$ if $e' = e$ and $d' = 0$ otherwise.
   \begin{align*}
-  \advantage{DDH}{\bdv, \grgen} &= |\Pr[d = d'] - \frac{1}{2}|\\
-  \Pr[d = d'] &= \Pr[d' = 1 \wedge d = 1] + \Pr[d' = 0 \wedge d = 0]\\
-  &= \Pr[d' = 1 \wedge C = g^{ab}] + \Pr[d' = 0 \wedge C = g^c]\\
-  &= \Pr[d' = 1 | C = g^{ab}] \cdot \Pr[C = g^{ab}] + \Pr[d' = 0 | C = g^c] \cdot \Pr[C = g^c]\\
+  \advantage{DDH}{\bdv, \grgen} &= \left|\Pr[d' = d] - \frac{1}{2}\right|\\
+  \Pr[d' = d] &= \Pr[d' = 1 \wedge d = 1] + \Pr[d' = 0 \wedge d = 0]\\
+  &= \Pr[d' = 1 | d = 1] \cdot \Pr[d = 1] + \Pr[d' = 0 | d = 0] \cdot \Pr[d = 0]\\
   &= \frac{1}{2} \Pr[d' = 1 | C = g^{ab}] + \frac{1}{2} \Pr[d' = 0 | C = g^c]\\
   &= \frac{1}{2} \Pr[d' = 1 | C = g^{ab}] + \frac{1}{2}(1 - \Pr[d' = 1 | C = g^c])\\
   &= \frac{1}{2} \Pr[d' = 1 | C = g^{ab}] + \frac{1}{2} - \frac{1}{2}\Pr[d' = 1 | C = g^c]
@@ -309,8 +311,8 @@ The proof is left as an exercise (see \autoref{ex:elgamal-hiding}).
   Therefore:
   \begin{align*}
   \advantage{DDH}{\bdv, \grgen} &= \left|\frac{1}{2} \Pr[d' = 1 | C = g^{ab}] - \frac{1}{2}\Pr[d' = 1 | C = g^c]\right|\\
-  &= \frac{1}{2} |\Pr[d' = 1 | C = g^{ab}] - \Pr[d' = 1 | C = g^c]|\\
-  &= \frac{1}{2} |\Pr[e = e' | C = g^{ab}] - \Pr[e = e' | C = g^c]|\\
+  &= \frac{1}{2} \left|\Pr[d' = 1 | C = g^{ab}] - \Pr[d' = 1 | C = g^c]\right|\\
+  &= \frac{1}{2} \left|\Pr[e = e' | C = g^{ab}] - \Pr[e = e' | C = g^c]\right|\\
   &= \frac{1}{2} \left|\Pr[e = e' | C = g^{ab}] - \frac{1}{2}\right|\\
   &= \frac{1}{2} \cdot \advantage{Hide}{\adv, \algo{ElGamalCom}}
   \end{align*}
