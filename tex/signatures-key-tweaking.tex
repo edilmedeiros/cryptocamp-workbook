@@ -59,20 +59,23 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
 \subsection{Exercises}
 
 \begin{exercise}
-  Define correctness for a signature scheme with tweaking.
+  Define perfect correctness for a signature scheme with tweaking.
   Specifically, modify standard signature scheme correctness (\autoref{def:sig-correctness}) to ensure that signatures created with a tweaked secret key verify correctly under the corresponding tweaked public key.
 \end{exercise}
 
 \ifsolutions
 \begin{mysolution}
-  A signature scheme $\algo{Sig} = (\algo{Setup}, \algo{KeyGen}, \algo{Sign}, \algo{Verify})$ with tweaking scheme $\algo{TwSch} = (\mathcal{T}, \algo{TwSK}, \algo{TwPK})$ is \emph{correct with tweaking} if:
+  A signature scheme $\algo{Sig} = (\algo{Setup}, \algo{KeyGen}, \algo{Sign}, \algo{Verify})$ with tweaking scheme $\algo{TwSch} = (\mathcal{T}, \algo{TwSK}, \algo{TwPK})$ is \emph{perfectly correct with tweaking} if:
   \begin{enumerate}
     \item The signature scheme $\algo{Sig}$ is correct (as per the standard definition).
-    \item For all $\secpar \in \NN$, all $\params \in \algo{Setup}(1^\secpar)$, all $(\sk, \pk) \in \algo{KeyGen}(\params)$, all tweaks $t \in \mathcal{T}$, and all messages $m \in \mathcal{M}$:
+    \item For all $\secpar \in \NN$, all tweaks $t \in \mathcal{T}$, and all messages $m \in \mathcal{M}$:
     \[
-      \Pr[\algo{Verify}(\params, \algo{TwPK}(\pk, t), m, \algo{Sign}(\params, \algo{TwSK}(\sk, t), m)) = 1] = 1
+      \Pr\left[\algo{Verify}(\params, \algo{TwPK}(\pk, t), m, \sigma) = 1 \;\middle|\; \begin{array}{l}
+        \params \gets \algo{Setup}(1^\secpar) \\
+        (\sk, \pk) \gets \algo{KeyGen}(\params) \\
+        \sigma \gets \algo{Sign}(\params, \algo{TwSK}(\sk, t), m)
+      \end{array}\right] = 1
     \]
-    where the probability is taken over the randomness of $\algo{Sign}$.
   \end{enumerate}
   
   In other words, signatures created with a tweaked secret key must always verify correctly under the corresponding tweaked public key.
