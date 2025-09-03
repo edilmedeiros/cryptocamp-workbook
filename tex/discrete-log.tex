@@ -367,7 +367,7 @@ The proof is left as an exercise (see \autoref{ex:elgamal-hiding}).
 
 \ifsolutions
 \begin{mysolution}
-  The OMDL assumption is \emph{non-falsifiable} because verifying the adversary's output requires computing discrete logarithms to check that $g^{x_i} = X_i$, which cannot be done in polynomial time classically.
+  The OMDL assumption is \emph{non-falsifiable} because implementing the DL oracle requires computing discrete logarithms, but the OMDL assumption itself assumes that this cannot be done with non-negligible success probability in polynomial time classically.
 
   The AOMDL assumption is \emph{falsifiable} because:
   \begin{itemize}
