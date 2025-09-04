@@ -230,7 +230,7 @@ Note that the hashing key $\kappa$ is not secret because it is required to evalu
     \begin{tcolorbox}[width=5cm]
       \begin{pchstack}[center]
         \procedure[headlinesep=1pt]{$\game{\Game~\algo{Preimage}}{\algo{H}}$}{%
-          \kappa \gets \algo{H.Gen}(\secpar) \\
+          \kappa \gets \algo{H.Gen}(\secparam) \\
           x \sample \{0, 1\}^\lambda\\
           y \gets \algo{H.Eval}(\kappa, x) \\
           x' \gets \adv(\kappa, y) \\

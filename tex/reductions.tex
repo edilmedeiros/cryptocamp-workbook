@@ -11,7 +11,7 @@ We illustrate the concept of reductions through a series of examples.
     \begin{tcolorbox}[width=7cm]
       \begin{pchstack}[center]
         \procedure[headlinesep=1pt]{$\game{\Game~\algo{PreimageEither}}{\algo{H}}$}{%
-          \kappa \gets \algo{H.Gen}(\secpar) \\
+          \kappa \gets \algo{H.Gen}(\secparam) \\
           x_1, x_2 \sample \{0, 1\}^\lambda\\
           y_1 \gets \algo{H.Eval}(\kappa, x_1) \\
           y_2 \gets \algo{H.Eval}(\kappa, x_2) \\
