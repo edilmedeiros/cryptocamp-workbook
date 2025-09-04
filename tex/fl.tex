@@ -186,13 +186,13 @@ The lemma's power lies in showing that despite the algorithm potentially behavin
 \begin{mysolution}
   Consider the following adversary $\adv$:
   
-  \textbf{First invocation:}
+  \emph{First invocation:}
   \begin{itemize}
     \item Query $h' \gets \pcoracle{H}(0 \| 0^\secpar)$
     \item Output $(\bot, h')$
   \end{itemize}
   
-  \textbf{Second invocation:}
+  \emph{Second invocation:}
   \begin{itemize}
     \item Output $m$
   \end{itemize}
@@ -209,7 +209,7 @@ The lemma's power lies in showing that despite the algorithm potentially behavin
 
 \begin{exercise}\label{ex:prog-rom}
   Sketch a proof of Proposition~\ref{prop:prog-rom}.
-  \textbf{Hints:}
+  \emph{Hints:}
   \begin{enumerate}
     \item Let $E$ be the event that the adversary queries $m \| r$ to the oracle during its first invocation (i.e., the event that triggers the assertion).
     Argue that $\Pr[\game{\Game_0}{} = 1 \wedge \neg E] = \Pr[\game{\Game_1}{} = 1 \wedge \neg E]$.
@@ -224,18 +224,18 @@ The lemma's power lies in showing that despite the algorithm potentially behavin
   We claim that $\Pr[\game{\Game_0}{} = 1 \wedge \neg E] = \Pr[\game{\Game_1}{} = 1 \wedge \neg E]$. To see this, we analyze the distribution of all values conditioned on $\neg E$:
   
   \begin{itemize}
-    \item \textbf{The value $h$:} In $\Game_0$, $h = \pcoracle{H}(m \| r)$ where the oracle uses lazy sampling. Since $\neg E$ occurs, the adversary never queried $m \| r$ during the first invocation, so $h$ is a fresh uniform sample. In $\Game_1$, $h$ is explicitly drawn uniformly at random. Thus $h$ is uniform in $\{0,1\}^\secpar$ in both games.
+    \item \emph{The value $h$:} In $\Game_0$, $h = \pcoracle{H}(m \| r)$ where the oracle uses lazy sampling. Since $\neg E$ occurs, the adversary never queried $m \| r$ during the first invocation, so $h$ is a fresh uniform sample. In $\Game_1$, $h$ is explicitly drawn uniformly at random. Thus $h$ is uniform in $\{0,1\}^\secpar$ in both games.
     
-    \item \textbf{The value $r$:} In both games, $r$ is drawn uniformly from $\{0,1\}^\secpar$.
+    \item \emph{The value $r$:} In both games, $r$ is drawn uniformly from $\{0,1\}^\secpar$.
     
-    \item \textbf{The value $m$:} In $\Game_0$, $m$ is drawn uniformly from $\{0,1\}$. In $\Game_1$:
+    \item \emph{The value $m$:} In $\Game_0$, $m$ is drawn uniformly from $\{0,1\}$. In $\Game_1$:
       \begin{itemize}
         \item If $h'$ is a valid commitment: $m = m^* \oplus m'$ where $m^*$ is uniform in $\{0,1\}$ and independent of the adversary's view
         \item If $h'$ is not a valid commitment: $m$ is drawn uniformly from $\{0,1\}$
       \end{itemize}
       In both cases, $m$ is uniform in $\{0,1\}$.
     
-    \item \textbf{The oracle programming:} In $\Game_1$, we set $T[m \| r] = h$. Since $\neg E$ occurs, the input $m \| r$ is fresh (never queried before), so this programming is invisible to the adversary and maintains consistency with $h = \pcoracle{H}(m \| r)$.
+    \item \emph{The oracle programming:} In $\Game_1$, we set $T[m \| r] = h$. Since $\neg E$ occurs, the input $m \| r$ is fresh (never queried before), so this programming is invisible to the adversary and maintains consistency with $h = \pcoracle{H}(m \| r)$.
   \end{itemize}
   
   Since all values have identical distributions and the oracle behaves identically in both games (returning the same values for the same queries), the adversary's view is bit-by-bit identical conditioned on $\neg E$. Therefore $\Pr[\game{\Game_0}{} = 1 \wedge \neg E] = \Pr[\game{\Game_1}{} = 1 \wedge \neg E]$.

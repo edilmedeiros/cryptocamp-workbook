@@ -176,13 +176,13 @@ Note that in $\game{\algo{ComHide}}{\algo{Com}}$ the adversary $\adv$ is run twi
     \item $\algo{Commit}(\params, m, r) \defeq \algo{H.Eval}(\kappa, r \| m)$
   \end{itemize}
   
-  \textbf{Theorem:} Let $\algo{H}$ be a collision-resistant hash function. Then $\algo{HashCom}[\algo{H}]$ is strongly binding.
+  \emph{Theorem:} Let $\algo{H}$ be a collision-resistant hash function. Then $\algo{HashCom}[\algo{H}]$ is strongly binding.
   More precisely, for any \ppt adversary $\adv$ against the strong binding property of $\algo{HashCom}[\algo{H}]$, there exists a \ppt adversary $\bdv$ against the collision resistance of $\algo{H}$ such that
   \[
   \advantage{StrongBind}{\adv, \algo{HashCom}[\algo{H}]} = \advantage{Coll}{\bdv^\adv_\algo{H}, \algo{H}}.
   \]
   
-  \textbf{Proof:} We prove the contrapositive: if $\algo{HashCom}[\algo{H}]$ is not strongly binding, then $\algo{H}$ is not collision-resistant.
+  \emph{Proof:} We prove the contrapositive: if $\algo{HashCom}[\algo{H}]$ is not strongly binding, then $\algo{H}$ is not collision-resistant.
   
   Assume $\algo{HashCom}[\algo{H}]$ is not strongly binding.
   Then there exists a \ppt adversary $\adv$ that wins $\game{\algo{ComStrongBind}}{\algo{HashCom}[\algo{H}]}$ with non-negligible probability, finding $(m_0, r_0)$ and $(m_1, r_1)$ such that:

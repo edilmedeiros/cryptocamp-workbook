@@ -176,7 +176,7 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
     \label{fig:adversary-euf-cma-tk}
   \end{figure}
 
-  \textbf{Why this attack succeeds:}
+  \emph{Why this attack succeeds:}
   
   When querying the signing oracle with $t_0 = (0, 1)$:
   \begin{itemize}
@@ -253,7 +253,7 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
   
   Adapt the proof of Lemma~\ref{lem:schnorr-to-single} to prove this lemma.
   
-  \textbf{Note:} Applying the forking lemma to $\cdv$ would allow extracting the discrete logarithm via $g^{s_1 - s_2} = (g^\alpha \cdot X^\beta)^{h_1 - h_2}$ where $(\alpha, \beta) = t^*$, thus establishing the EUF-CMA-TK security of $\algo{SchnorrSigKP}$ with SchnorrTS.
+  \emph{Note:} Applying the forking lemma to $\cdv$ would allow extracting the discrete logarithm via $g^{s_1 - s_2} = (g^\alpha \cdot X^\beta)^{h_1 - h_2}$ where $(\alpha, \beta) = t^*$, thus establishing the EUF-CMA-TK security of $\algo{SchnorrSigKP}$ with SchnorrTS.
 \end{exercise}
 
 \ifsolutions
@@ -383,7 +383,7 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
   
   The games are shown in Figure~\ref{fig:schnorrkp-reduction}.
   
-  \textbf{Proof that $g^{s^*} = R^* \cdot \algo{TwPK}(X, t^*)^{\algo{H}(R^*, \algo{TwPK}(X, t^*), m^*)}$:} 
+  \emph{Proof that $g^{s^*} = R^* \cdot \algo{TwPK}(X, t^*)^{\algo{H}(R^*, \algo{TwPK}(X, t^*), m^*)}$:} 
   When $\cdv$ succeeds, we have $g^{s^*} = R^* \cdot \tilde{X}^{*c^*}$ where $\tilde{X}^* = \algo{TwPK}(X, t^*)$ and $c^* = \pcoracle{H}_{\cdv}(R^*, \tilde{X}^*, m^*)$.
   We claim that $\pcoracle{H}_{\cdv}(R^*, \tilde{X}^*, m^*) = \algo{H}(R^*, \tilde{X}^*, m^*)$.
   
@@ -398,7 +398,7 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
   However, $\cdv$ asserts that $(m^*, t^*) \notin \mathcal{Q}$, which is a contradiction.
   Thus $c^* = \algo{H}(R^*, \tilde{X}^*, m^*)$.
   
-  \textbf{Note on collision extraction:} If $(t, \tilde{X}) \in \mathcal{T}$ with $t = (\alpha, \beta) \neq t^* = (\alpha^*, \beta^*)$ but $\algo{TwPK}(X, t) = \algo{TwPK}(X, t^*)$, then $g^\alpha \cdot X^\beta = g^{\alpha^*} \cdot X^{\beta^*}$.
+  \emph{Note on collision extraction:} If $(t, \tilde{X}) \in \mathcal{T}$ with $t = (\alpha, \beta) \neq t^* = (\alpha^*, \beta^*)$ but $\algo{TwPK}(X, t) = \algo{TwPK}(X, t^*)$, then $g^\alpha \cdot X^\beta = g^{\alpha^*} \cdot X^{\beta^*}$.
   This implies $g^\alpha \cdot g^{\beta x} = g^{\alpha^*} \cdot g^{\beta^* x}$, so $(\beta - \beta^*)x = \alpha^* - \alpha$.
   If $\beta = \beta^*$, then $\alpha = \alpha^*$, contradicting $t \neq t^*$.
   Thus $\beta \neq \beta^*$ and we can extract $x = (\alpha^* - \alpha)/(\beta - \beta^*) \bmod p$.

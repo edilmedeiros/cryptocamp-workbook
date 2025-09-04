@@ -206,8 +206,8 @@ The proof of \autoref{prop:lamport-correctness} is left as an exercise (see \aut
 
 \ifsolutions
 \begin{mysolution}
-  \textbf{Existential unforgeability:} The adversary wins if it can forge a signature for \emph{any} message of its choice.
-  \textbf{Chosen message attack:} The adversary has access to a signing oracle and can obtain a signature for a message of its choice before attempting the forgery.
+  \emph{Existential unforgeability:} The adversary wins if it can forge a signature for \emph{any} message of its choice.
+  \emph{Chosen message attack:} The adversary has access to a signing oracle and can obtain a signature for a message of its choice before attempting the forgery.
 \end{mysolution}
 \fi
 
@@ -362,40 +362,40 @@ The proof of \autoref{prop:lamport-correctness} is left as an exercise (see \aut
 \ifsolutions
 \begin{mysolution}
   \begin{enumerate}
-    \item \textbf{Signing and Verification:}
+    \item \emph{Signing and Verification:}
     \begin{itemize}
-      \item \textbf{KeyGen:} Generate Lamport keys as usual: $x_{i,b} \sample \{0,1\}^\secpar$ and $\pk_{i,b} = \algo{H.Eval}(\params, x_{i,b})$ for $i \in [1,k], b \in \{0,1\}$.
+      \item \emph{KeyGen:} Generate Lamport keys as usual: $x_{i,b} \sample \{0,1\}^\secpar$ and $\pk_{i,b} = \algo{H.Eval}(\params, x_{i,b})$ for $i \in [1,k], b \in \{0,1\}$.
       Insert all $\pk_{i,b}$ values into an accumulator and output $\pk = v$ (the accumulator value) and keep $\sk = ((x_{1,0}, x_{1,1}), \ldots, (x_{k,0}, x_{k,1}), \state_{acc})$ where $\state_{acc}$ is the accumulator state.
-    \item \textbf{Sign:} For message $m = (m_1, \ldots, m_k)$, compute membership proofs
+    \item \emph{Sign:} For message $m = (m_1, \ldots, m_k)$, compute membership proofs
       \[
         \pi_i \gets \algo{Acc.ProveMembership}(\params_{acc}, \state_{acc}, \pk_{i,m_i})
       \]
       for each $i \in [1,k]$.
       Output $\sigma = ((x_{1,m_1}, \pi_1), \ldots, (x_{k,m_k}, \pi_k))$.
-    \item \textbf{Verify:} For each $i \in [1,k]$, compute $\pk'_{i,m_i} = \algo{H.Eval}(\params, x_{i,m_i})$ and check that
+    \item \emph{Verify:} For each $i \in [1,k]$, compute $\pk'_{i,m_i} = \algo{H.Eval}(\params, x_{i,m_i})$ and check that
       \[
       \algo{Acc.VerifyMembership}(\params_{acc}, v, \pk'_{i,m_i}, \pi_i) = 1.
       \]
       Output 1 if all checks pass.
     \end{itemize}
     
-    \item \textbf{Trade-offs:}
+    \item \emph{Trade-offs:}
     \begin{itemize}
-      \item \textbf{Advantage:} Smaller public key (just the accumulator value) instead of $2k$ hash values.
-      \item \textbf{Disadvantage:} Larger signatures (must include $k$ membership proofs).
+      \item \emph{Advantage:} Smaller public key (just the accumulator value) instead of $2k$ hash values.
+      \item \emph{Disadvantage:} Larger signatures (must include $k$ membership proofs).
     \end{itemize}
     
-    \item \textbf{Security:}
+    \item \emph{Security:}
     We need the accumulator to be collision-free.
     
-    \textbf{Theorem:} Let $\algo{H}$ be a preimage-resistant hash function and $\algo{Acc}$ be a collision-free accumulator.
+    \emph{Theorem:} Let $\algo{H}$ be a preimage-resistant hash function and $\algo{Acc}$ be a collision-free accumulator.
     Then the Lamport signature scheme with accumulated public key is EUF-CMA secure.
     More precisely, for any \ppt adversary $\adv$, there exist \ppt adversaries $\bdv_1$ and $\bdv_2$ such that:
     \[
       \advantage{EUF-CMA}{\adv, \algo{LS\text{-}Acc}} \leq 2k \cdot (\advantage{Preimage}{\bdv_1, \algo{H}} + \advantage{Coll}{\bdv_2, \algo{Acc}})
     \]
     
-    \textbf{Proof sketch:}
+    \emph{Proof sketch:}
     We follow the game sequence from the original Lamport proof.
     Let $\Game~\algo{G_2}$ be the game where we guess $(i^*, j^*)$ and abort unless the adversary queries $m$ with $m_{i^*} \neq j^*$ and forges on $m^*$ with $m^*_{i^*} = j^*$.
     As in the original proof, $\Pr[\Game~\algo{G_2} = 1] \geq \frac{1}{2k} \cdot \advantage{EUF-CMA}{\adv, \algo{LS\text{-}Acc}}$.
@@ -439,7 +439,7 @@ The proof of \autoref{prop:lamport-correctness} is left as an exercise (see \aut
 \begin{mysolution}
   Here is a construction for a stateful many-time signature scheme:
   \begin{itemize}
-    \item \textbf{Setup/KeyGen:} 
+    \item \emph{Setup/KeyGen:} 
       \begin{enumerate}
         \item Generate $n$ one-time signature key pairs: $(\sk_i, \pk_i) \gets \algo{OTS.KeyGen}(\params)$ for $i \in [1,n]$.
         \item Insert all $n$ public keys $\{\pk_1, \ldots, \pk_n\}$ into an accumulator.
@@ -447,7 +447,7 @@ The proof of \autoref{prop:lamport-correctness} is left as an exercise (see \aut
         \item The master secret key is $\sk = ((\sk_1, \pk_1), \ldots, (\sk_n, \pk_n), \state_{acc})$ where $\state_{acc}$ is the accumulator state.
         \item Initialize a counter $\mathit{ctr} = 0$.
       \end{enumerate}
-    \item \textbf{Sign (stateful):}
+    \item \emph{Sign (stateful):}
       \begin{enumerate}
         \item Increment $\mathit{ctr} \gets \mathit{ctr} + 1$.
         \item If $\mathit{ctr} > n$, abort (all keys have been used).
@@ -455,7 +455,7 @@ The proof of \autoref{prop:lamport-correctness} is left as an exercise (see \aut
         \item Generate a membership proof: $\pi \gets \algo{Acc.ProveMembership}(\params_{acc}, \state_{acc}, \pk_{\mathit{ctr}})$.
         \item Output $\sigma = (\mathit{ctr}, \pk_{\mathit{ctr}}, \sigma_{ots}, \pi)$.
       \end{enumerate}
-    \item \textbf{Verify:}
+    \item \emph{Verify:}
       \begin{enumerate}
         \item Parse $\sigma = (i, \pk_i, \sigma_{ots}, \pi)$.
         \item Verify the OTS signature: check that $\algo{OTS.Verify}(\params, \pk_i, m, \sigma_{ots}) = 1$.

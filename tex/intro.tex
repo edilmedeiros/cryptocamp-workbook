@@ -281,16 +281,16 @@ Hence, the definition of preimage-resistance only considers \ppt adversaries.
 \begin{mysolution}
   We analyze each function using the definition of negligible functions and Lemma~\ref{lem:negl}:
   \begin{enumerate}
-    \item $f(\secpar) = 0$ is \textbf{negligible}.
+    \item $f(\secpar) = 0$ is \emph{negligible}.
     For any constant $c > 0$, we have $0 < \secpar^{-c}$ for all $\secpar > 0$.
     
-    \item $f(\secpar) = \frac{1}{2}$ is \textbf{not negligible}.
+    \item $f(\secpar) = \frac{1}{2}$ is \emph{not negligible}.
     By Lemma~\ref{lem:negl}(3), since $0$ is negligible and $\frac{1}{2}$ is a positive constant, $0 + \frac{1}{2} = \frac{1}{2}$ is not negligible.
     
-    \item $f(\secpar) = \frac{1}{\secpar^2}$ is \textbf{not negligible}.
+    \item $f(\secpar) = \frac{1}{\secpar^2}$ is \emph{not negligible}.
     For $c = 3$, we have $\frac{1}{\secpar^2} > \secpar^{-3}$ for all $\secpar > 1$, so the definition is not satisfied.
     
-    \item $f(\secpar) = \secpar^{4096} \cdot 2^{-\secpar}$ is \textbf{negligible}.
+    \item $f(\secpar) = \secpar^{4096} \cdot 2^{-\secpar}$ is \emph{negligible}.
     First, $2^{-\secpar}$ is negligible: for any $c > 0$, we need $2^{-\secpar} < \secpar^{-c}$, which is equivalent to $\secpar^c < 2^{\secpar}$.
     Taking logarithms: $c \ln(\secpar) < \secpar \ln(2)$.
     We have $\lim_{\secpar \to \infty} \frac{c \ln(\secpar)}{\secpar \ln(2)} = \frac{c}{\ln(2)} \cdot \lim_{\secpar \to \infty} \frac{\ln(\secpar)}{\secpar}$ (constant multiple rule).
@@ -298,7 +298,7 @@ Hence, the definition of preimage-resistance only considers \ppt adversaries.
     Therefore, there exists $N$ such that the inequality holds for all $\secpar > N$.
     By Lemma~\ref{lem:negl}(1), the product of a negligible function with a polynomial is negligible.
     
-    \item $f(\secpar) = \sqrt{2^{-\secpar}}$ is \textbf{negligible}.
+    \item $f(\secpar) = \sqrt{2^{-\secpar}}$ is \emph{negligible}.
     Since $2^{-\secpar}$ is negligible, for any $c > 0$ there exists $N$ such that for all $\secpar > N$,
     $2^{-\secpar} < \secpar^{-2c}$.
     Taking square roots preserves the inequality, so for all $\secpar > N$,
@@ -384,7 +384,7 @@ Hence, the definition of preimage-resistance only considers \ppt adversaries.
 \begin{exercise}[Optional]\label{ex:negl-property-proof}
   Prove property (1) of Lemma~\ref{lem:negl}: If $f$ is a negligible function and $p$ is a polynomial, then $f(\secpar) \cdot p(\secpar)$ is negligible.
   
-  \textbf{Hints:}
+  \emph{Hints:}
   \begin{itemize}
     \item Any polynomial $p(\lambda)$ can be bounded by $\lambda^{a}$ for some positive integer $a$ and sufficiently large $\lambda$.
     \item To show $f(\lambda) \cdot p(\lambda)$ is negligible, for any $c > 0$, use the fact that $f$ is negligible with constant $c + a$.
@@ -421,9 +421,9 @@ Hence, the definition of preimage-resistance only considers \ppt adversaries.
 
 \ifsolutions
 \begin{mysolution}
-  \textbf{Proposition:} For any $t$ and $\lambda$, the $\game{\Game~\algo{Guess}}{}$ is $(t, 2^{-\lambda})$-hard.
+  \emph{Proposition:} For any $t$ and $\lambda$, the $\game{\Game~\algo{Guess}}{}$ is $(t, 2^{-\lambda})$-hard.
   
-  \textbf{Proof:} The proof is identical to Proposition~\ref{prop:guessing-game}, but we emphasize that the bound $2^{-\lambda}$ holds for \emph{all} $t$, not just polynomial time.
+  \emph{Proof:} The proof is identical to Proposition~\ref{prop:guessing-game}, but we emphasize that the bound $2^{-\lambda}$ holds for \emph{all} $t$, not just polynomial time.
   
   Note: This shows that in the concrete setting, we explicitly state the security level ($2^{-\lambda}$) rather than saying it's ``negligible''.
   The concrete approach gives precise bounds rather than asymptotic statements.

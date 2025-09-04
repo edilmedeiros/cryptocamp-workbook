@@ -104,9 +104,9 @@ In other words, the adversary can insert elements into the accumulator and obtai
 
 \ifsolutions
 \begin{mysolution}
-  \textbf{Correctness (informal):} An accumulator is correct if for any element that has been inserted, we can generate a membership proof (using the current state) that will verify successfully against the current accumulator value.
+  \emph{Correctness (informal):} An accumulator is correct if for any element that has been inserted, we can generate a membership proof (using the current state) that will verify successfully against the current accumulator value.
   
-  \textbf{Is the trivial accumulator correct?} Yes, the trivial accumulator is correct.
+  \emph{Is the trivial accumulator correct?} Yes, the trivial accumulator is correct.
   In the trivial accumulator:
   \begin{itemize}
     \item The accumulator value $v$ is just the state itself, which is the set of all inserted elements
@@ -126,9 +126,9 @@ In other words, the adversary can insert elements into the accumulator and obtai
 
 \ifsolutions
 \begin{mysolution}
-  \textbf{Collision-freeness (informal):} An accumulator is collision-free if it's computationally infeasible for an adversary to produce a valid membership proof for an element that was never inserted into the accumulator.
+  \emph{Collision-freeness (informal):} An accumulator is collision-free if it's computationally infeasible for an adversary to produce a valid membership proof for an element that was never inserted into the accumulator.
   
-  \textbf{Is the trivial accumulator collision-free?} Yes, the trivial accumulator is collision-free.
+  \emph{Is the trivial accumulator collision-free?} Yes, the trivial accumulator is collision-free.
   
   In the trivial accumulator, the accumulator value $v$ is exactly the set of all inserted elements.
   For $\algo{VerifyMembership}$ to accept, the element $x$ must be in this set.
@@ -145,14 +145,14 @@ In other words, the adversary can insert elements into the accumulator and obtai
 
 \ifsolutions
 \begin{mysolution}
-  An example is a \textbf{Merkle tree}.
+  An example is a \emph{Merkle tree}.
   The accumulator value is the root hash of a Merkle tree containing all inserted elements.
   The membership proof for an element consists of the authentication path from the leaf to the root.
   
-  \textbf{Correctness:} If an element was inserted, it appears as a leaf in the tree.
+  \emph{Correctness:} If an element was inserted, it appears as a leaf in the tree.
   The honestly generated authentication path will correctly hash up to the root, so verification succeeds.
   
-  \textbf{Collision-freeness:} To forge a membership proof for an element that wasn't inserted, an adversary would need to provide an authentication path that hashes to the correct root.
+  \emph{Collision-freeness:} To forge a membership proof for an element that wasn't inserted, an adversary would need to provide an authentication path that hashes to the correct root.
   This would mean finding a different set of sibling hashes that produce the same root hash, which would constitute a collision in the hash function.
   Since the hash function is collision-resistant, this is infeasible.
 \end{mysolution}
@@ -169,7 +169,7 @@ In other words, the adversary can insert elements into the accumulator and obtai
   Elements are stored at the leaves of a balanced binary tree, and the accumulator value is the root hash.
   The membership proof consists of the sibling hashes along the path from leaf to root, which has length $O(\log n)$ for $n$ elements.
 
-  \textbf{Correctness and Collision-freeness:} Same as the previous exercise.
+  \emph{Correctness and Collision-freeness:} Same as the previous exercise.
 \end{mysolution}
 \fi
 
@@ -179,7 +179,7 @@ In other words, the adversary can insert elements into the accumulator and obtai
 
 \ifsolutions
 \begin{mysolution}
-  \textbf{Syntax:} An additive universal accumulator is a tuple of polynomial-time algorithms 
+  \emph{Syntax:} An additive universal accumulator is a tuple of polynomial-time algorithms 
   \begin{align*}
     &(\algo{Gen}, \algo{Init}, \algo{Value}, \algo{Insert}, \algo{ProveMembership}, \algo{VerifyMembership},\\
     &\quad \algo{ProveNonMembership}, \algo{VerifyNonMembership}),
@@ -190,7 +190,7 @@ In other words, the adversary can insert elements into the accumulator and obtai
     \item $\algo{VerifyNonMembership}(\params, v, x, \pi) \rightarrow \{0, 1\}$ is a deterministic algorithm that takes public parameters $\params$, an accumulator value $v$, an element $x \in \mathcal{X}_\mathsf{Acc}$, and a proof $\pi$ as input and outputs $1$ (accept) if the proof validates that $x$ is not a member of the set represented by $v$, and outputs $0$ (reject) otherwise.
   \end{itemize}
   
-  \textbf{Correctness:} An additive universal accumulator is \emph{correct} if both membership and non-membership proofs verify correctly.
+  \emph{Correctness:} An additive universal accumulator is \emph{correct} if both membership and non-membership proofs verify correctly.
   Formally, for all security parameters $\secpar$, all public parameters $\params \gets \algo{Gen}(1^\secpar)$, all values $x \in \mathcal{X}_\mathsf{Acc}$, all positive integers $t$ polynomial in $\secpar$, all tuples $\vec{y} \in \mathcal{X}_\mathsf{Acc}^{t}$:
   
   1. Membership correctness: For all $x \in \vec{y}$,
@@ -219,7 +219,7 @@ In other words, the adversary can insert elements into the accumulator and obtai
     \right] = 1 - \negl.
   \]
   
-  \textbf{Collision-Freeness:} An additive universal accumulator is \emph{collision-free} if it's hard to fabricate either a membership proof for a non-member or a non-membership proof for a member.
+  \emph{Collision-Freeness:} An additive universal accumulator is \emph{collision-free} if it's hard to fabricate either a membership proof for a non-member or a non-membership proof for a member.
   We extend the collision game from \autoref{fig:break-acc-coll} as follows:
   
   \begin{center}
@@ -256,11 +256,11 @@ In other words, the adversary can insert elements into the accumulator and obtai
 
 \ifsolutions
 \begin{mysolution}
-  We can construct a universal accumulator using a \textbf{sparse Merkle tree}.
+  We can construct a universal accumulator using a \emph{sparse Merkle tree}.
   In a sparse Merkle tree, we have a fixed domain $\mathcal{X}_\mathsf{Acc} = \{0,1\}^\lambda$ and build a complete binary tree of depth $\lambda$.
   Each element $x \in \mathcal{X}_\mathsf{Acc}$ maps to a unique leaf position determined by interpreting $x$ as a binary path.
   
-  \textbf{Construction:}
+  \emph{Construction:}
   \begin{itemize}
     \item $\algo{Gen}(1^\secpar)$: Output $\params = (\mathcal{X}_\mathsf{Acc} = \{0,1\}^\lambda, \algo{H})$ where $\algo{H}$ is a collision-resistant hash function.
     \item $\algo{Init}(\params)$: Initialize an empty sparse Merkle tree where all leaves have a default value $\bot$ (representing non-membership).
@@ -272,23 +272,23 @@ In other words, the adversary can insert elements into the accumulator and obtai
     \item $\algo{VerifyNonMembership}(\params, v, x, \pi)$: Verify that the path leads to root $v$ and the leaf value is $\bot$.
   \end{itemize}
   
-  \textbf{Efficiency:} The accumulator value (root hash) has constant size.
+  \emph{Efficiency:} The accumulator value (root hash) has constant size.
   Both membership and non-membership proofs consist of $\lambda$ sibling hashes along the path, giving logarithmic proof size.
   
-  \textbf{Correctness:} 
+  \emph{Correctness:} 
   \begin{itemize}
     \item Membership: If $x$ was inserted, its leaf has a non-$\bot$ value, and the authentication path correctly verifies to the root.
     \item Non-membership: If $x$ was never inserted, its leaf remains $\bot$, and the authentication path proves this.
   \end{itemize}
   
-  \textbf{Collision-freeness:} To forge a membership proof for a non-member (or vice versa), an adversary would need to provide an authentication path that:
+  \emph{Collision-freeness:} To forge a membership proof for a non-member (or vice versa), an adversary would need to provide an authentication path that:
   \begin{itemize}
     \item Hashes to the correct root value
     \item Shows a different leaf value than what's actually stored
   \end{itemize}
   This would require finding a collision in the hash function, which is infeasible by assumption.
   
-  \textbf{Alternative:} A sorted Merkle tree could also be used, where elements are stored in sorted order at the leaves.
+  \emph{Alternative:} A sorted Merkle tree could also be used, where elements are stored in sorted order at the leaves.
   Non-membership proofs would show two adjacent leaves with values that bracket the queried element.
 \end{mysolution}
 \fi

@@ -119,7 +119,7 @@ The proof is left as an exercise (see \autoref{ex:collision-implies-preimage}).
 \begin{exercise}\label{ex:preimage-either-reverse}
   Prove \autoref{prop:preimage-either-reverse}.
   
-  \textbf{Hint:} Construct a reduction that randomly places the challenge in either the first or second position.
+  \emph{Hint:} Construct a reduction that randomly places the challenge in either the first or second position.
 \end{exercise}
 
 \ifsolutions
@@ -164,7 +164,7 @@ The proof is left as an exercise (see \autoref{ex:collision-implies-preimage}).
 \begin{exercise}\label{ex:collision-implies-preimage}
   Prove \autoref{thm:collision-implies-preimage} (collision-resistance implies preimage-resistance).
   
-  \textbf{Hint:} Construct a reduction that samples a random $x$, computes $y = \algo{H.Eval}(\kappa, x)$, and uses the preimage-finding adversary to find $x'$ such that $\algo{H.Eval}(\kappa, x') = y$. What is the probability that $x = x'$?
+  \emph{Hint:} Construct a reduction that samples a random $x$, computes $y = \algo{H.Eval}(\kappa, x)$, and uses the preimage-finding adversary to find $x'$ such that $\algo{H.Eval}(\kappa, x') = y$. What is the probability that $x = x'$?
 \end{exercise}
 
 \ifsolutions

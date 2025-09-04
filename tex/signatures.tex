@@ -296,11 +296,11 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
     \advantage{EUF-CMA}{\adv, \algo{SchnorrSig}} \leq 2^{-161} + 0.5 \approx 0.5
   \]
   
-  \textbf{Comparison:} The discrete logarithm advantage is $2^{-87}$, while the EUF-CMA advantage for Schnorr signatures is approximately $2^{-1}$.
+  \emph{Comparison:} The discrete logarithm advantage is $2^{-87}$, while the EUF-CMA advantage for Schnorr signatures is approximately $2^{-1}$.
   
   This dramatic difference—losing over 86 bits of security—is due to the square root loss in the forking lemma. 
   
-  \textbf{Remark:} In the Algebraic Group Model (AGM)~\cite{C:FucKilLos18}, Schnorr signatures can be proven secure with a much tighter reduction. The AGM assumes that whenever an adversary outputs a group element, it must also provide an algebraic representation in terms of previously seen group elements. Because the AGM proof doesn't require rewinding (unlike the forking lemma), it avoids the square root loss entirely, achieving security that nearly matches the hardness of discrete logarithm.
+  \emph{Remark:} In the Algebraic Group Model (AGM)~\cite{C:FucKilLos18}, Schnorr signatures can be proven secure with a much tighter reduction. The AGM assumes that whenever an adversary outputs a group element, it must also provide an algebraic representation in terms of previously seen group elements. Because the AGM proof doesn't require rewinding (unlike the forking lemma), it avoids the square root loss entirely, achieving security that nearly matches the hardness of discrete logarithm.
 \end{mysolution}
 \fi
 
@@ -425,7 +425,7 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
     \item Output $x$
   \end{enumerate}
   
-  \textbf{Success Probability:} Algorithm $\ddv$ succeeds in solving the discrete logarithm problem exactly when the forking game returns non-$\bot$ outputs. Therefore:
+  \emph{Success Probability:} Algorithm $\ddv$ succeeds in solving the discrete logarithm problem exactly when the forking game returns non-$\bot$ outputs. Therefore:
   \[
     \advantage{DLog}{\ddv, \grgen} = \advantage{Fork}{\cdv, \algo{InpGen}}
   \]
