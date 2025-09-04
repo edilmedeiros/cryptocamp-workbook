@@ -255,7 +255,6 @@ Now consider the modified game shown in \autoref{fig:hashcom-hiding-rom-modified
         }
         \pchspace
         \procedure[headlinesep=1pt]{Oracle $\pcoracle{H}(x)$}{%
-          \gamechange{$\pcassert \text{$x$ does not end with $r$}$} \\
           \pcif T[x] = \bot \pcthen \\
           \t T[x] \sample \{0,1\}^\secpar \\
           \pcreturn T[x]
@@ -267,14 +266,16 @@ Now consider the modified game shown in \autoref{fig:hashcom-hiding-rom-modified
   \label{fig:hashcom-hiding-rom-modified}
 \end{figure}
 
-Note that in $\game{\algo{ComHide}_1}{\algo{HashCom}}$, the value $b$ is independent of the adversary's view, so:
+Note that in $\game{\algo{ComHide}_1}{\algo{HashCom}}$, the value $c'$ is uniformly random and independent of $b$, so the adversary's view is independent of $b$.
+Therefore:
 \[
 \Pr[\game{\algo{ComHide}_1}{\algo{HashCom}} = 1] = \frac{1}{2}
 \]
 
 The games differ only when $\adv$ queries some value to the oracle that ends with $r$.
 This is because in $\game{\algo{ComHide}}{\algo{HashCom}}$, the challenger queries $\pcoracle{H}(m_b \| r)$ to compute the commitment, while in $\game{\algo{ComHide}_1}{\algo{HashCom}}$, it samples $c'$ uniformly at random without querying the oracle.
-Since the distribution of the random oracle output is identical to the distribution of $c'$ when the adversary doesn't query a value ending with $r$, the games produce the same output except when the assertion is triggered.
+If the adversary never queries a value ending with $r$, then both games provide the adversary with a uniformly random commitment value and behave identically.
+However, if the adversary does query $m_b \| r$ (or any other value ending with $r$), the games diverge: in $\game{\algo{ComHide}}{\algo{HashCom}}$, the oracle returns the value consistent with $c$, while in $\game{\algo{ComHide}_1}{\algo{HashCom}}$, the oracle returns a fresh random value.
 By the Difference Lemma (\autoref{lem:difference}), we can bound the difference between the games by the probability of this event:
 
 \begin{align*}
