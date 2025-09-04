@@ -210,7 +210,7 @@ Unlike one-time signatures, the adversary can request signatures on multiple mes
 
   Let $\algo{InpGen}$ be the algorithm which on input $1^\secpar$ runs $(\GG, p, g) \gets \grgen(1^\secpar)$, draws $X \sample \GG$, and returns $((\GG, p, g), X)$.
 
-  Consider algorithm $\cdv$ defined in \autoref{fig:schnorr-reduction} that takes as input $(\gparam, X) \gets \algo{InpGen}(1^\secpar)$ and has access to a random oracle $\algo{H}$. Then $\cdv$ makes at most $q_h + 1$ queries to $\algo{H}$, and satisfies
+  Consider algorithm $\cdv$ defined in \autoref{fig:schnorr-reduction} that takes as input $(\gparam, X) \gets \algo{InpGen}(1^\secpar)$, has access to a random oracle $\algo{H}$, and runs adversary $\adv$. Then $\cdv$ makes at most $q_h + 1$ queries to $\algo{H}$, and satisfies
   \[
     \left|\advantage{Single}{\cdv, \algo{InpGen}} - \advantage{EUF-CMA}{\adv, \algo{SchnorrSig}[\grgen, \algo{H}]}\right| \leq \frac{2 q_s(q_s + q_h)}{2^\secpar}
   \]
