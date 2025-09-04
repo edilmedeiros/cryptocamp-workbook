@@ -57,16 +57,16 @@ Before examining the consequences of random oracles, we present a simple lemma t
   More precisely, let $\game{\Game~\algo{ROExample}}{}$ be as defined in \autoref{fig:ro-example}.
   For any adversary $\adv$ making $q$ queries to the random oracle $\pcoracle{H}$, we have
   \[
-  \left|\Pr[\game{\algo{ROExample}}{} = 1] - \Pr[\game{\algo{ROExample}_1}{} = 1]\right| \leq \frac{q}{2^\secpar}
+  \left|\Pr[\game{\algo{ROExample}}{} = 1] - \Pr[\game{\algo{ROExample}_2}{} = 1]\right| \leq \frac{q}{2^\secpar}
   \]
-  where $\game{\algo{ROExample}_1}{}$ is defined in \autoref{fig:ro-game-hop}.
+  where $\game{\algo{ROExample}_2}{}$ is defined in \autoref{fig:ro-game-hop}.
 \end{lemma}
 
 \begin{figure}[tbhp]
   \begin{center}
     \begin{tcolorbox}[width=8cm]
       \begin{pchstack}
-        \procedure[headlinesep=1pt]{$\game{\Game~\algo{ROExample}_1}{}$}{%
+        \procedure[headlinesep=1pt]{$\game{\Game~\algo{ROExample}_2}{}$}{%
           T \defeq \emptyset \\
           r \sample \{0,1\}^\secpar \\
           \gamechange{$\phantom{h \defeq \pcoracle{H}(r)}$} \\
@@ -87,7 +87,7 @@ Before examining the consequences of random oracles, we present a simple lemma t
 \end{figure}
 
 \begin{proof}
-  By inspection of the code, we observe that $\game{\algo{ROExample}_1}{}$ is identical to $\game{\algo{ROExample}}{}$ except that:
+  By inspection of the code, we observe that $\game{\algo{ROExample}_2}{}$ is identical to $\game{\algo{ROExample}}{}$ except that:
   \begin{enumerate}
   \item The input to $\adv$ is changed from $h = \pcoracle{H}(r)$ to a uniformly random $h' \sample S$.
   \item The oracle $\pcoracle{H}$ asserts that no query equals $r$.
@@ -98,11 +98,11 @@ Before examining the consequences of random oracles, we present a simple lemma t
   We apply the Difference Lemma (\autoref{lem:difference}).
   Let $E$ denote the event that $\adv$ queries $r$ to the oracle.
   
-  When $\neg E$ occurs (i.e., $r$ is not queried), the two games behave identically, so $\Pr[\game{\algo{ROExample}}{} = 1 \wedge \neg E] = \Pr[\game{\algo{ROExample}_1}{} = 1 \wedge \neg E]$. 
+  When $\neg E$ occurs (i.e., $r$ is not queried), the two games behave identically, so $\Pr[\game{\algo{ROExample}}{} = 1 \wedge \neg E] = \Pr[\game{\algo{ROExample}_2}{} = 1 \wedge \neg E]$. 
   
   By Lemma~\ref{lem:difference}:
   \begin{align*}
-    \left|\Pr[\game{\algo{ROExample}}{} = 1] - \Pr[\game{\algo{ROExample}_1}{} = 1]\right| &\leq \Pr[E] \\
+    \left|\Pr[\game{\algo{ROExample}}{} = 1] - \Pr[\game{\algo{ROExample}_2}{} = 1]\right| &\leq \Pr[E] \\
     &= \Pr[\exists i \in [q] : x_i = r] \\
     &\leq \sum_{i=1}^q \Pr[x_i = r] \tag{union bound} \\
     &= \sum_{i=1}^q \frac{1}{2^\secpar} = \frac{q}{2^\secpar}
@@ -242,7 +242,7 @@ Now consider the modified game shown in \autoref{fig:hashcom-hiding-rom-modified
   \begin{center}
     \begin{tcolorbox}[width=10cm]
       \begin{pchstack}
-        \procedure[headlinesep=1pt]{$\game{\Game~\algo{ComHide}_1}{\algo{HashCom}}$}{%
+        \procedure[headlinesep=1pt]{$\game{\Game~\algo{ComHide}_2}{\algo{HashCom}}$}{%
           \params \gets \algo{Setup}(1^\secpar) \\
           (m_0, m_1) \gets \adv(\params) \\
           T \defeq \emptyset \\
@@ -266,21 +266,21 @@ Now consider the modified game shown in \autoref{fig:hashcom-hiding-rom-modified
   \label{fig:hashcom-hiding-rom-modified}
 \end{figure}
 
-Note that in $\game{\algo{ComHide}_1}{\algo{HashCom}}$, the value $c'$ is uniformly random and independent of $b$, so the adversary's view is independent of $b$.
+Note that in $\game{\algo{ComHide}_2}{\algo{HashCom}}$, the value $c'$ is uniformly random and independent of $b$, so the adversary's view is independent of $b$.
 Therefore:
 \[
-\Pr[\game{\algo{ComHide}_1}{\algo{HashCom}} = 1] = \frac{1}{2}
+\Pr[\game{\algo{ComHide}_2}{\algo{HashCom}} = 1] = \frac{1}{2}
 \]
 
 The games differ only when $\adv$ queries some value to the oracle that ends with $r$.
-This is because in $\game{\algo{ComHide}}{\algo{HashCom}}$, the challenger queries $\pcoracle{H}(m_b \| r)$ to compute the commitment, while in $\game{\algo{ComHide}_1}{\algo{HashCom}}$, it samples $c'$ uniformly at random without querying the oracle.
+This is because in $\game{\algo{ComHide}}{\algo{HashCom}}$, the challenger queries $\pcoracle{H}(m_b \| r)$ to compute the commitment, while in $\game{\algo{ComHide}_2}{\algo{HashCom}}$, it samples $c'$ uniformly at random without querying the oracle.
 If the adversary never queries a value ending with $r$, then both games provide the adversary with a uniformly random commitment value and behave identically.
-However, if the adversary does query $m_b \| r$ (or any other value ending with $r$), the games diverge: in $\game{\algo{ComHide}}{\algo{HashCom}}$, the oracle returns the value consistent with $c$, while in $\game{\algo{ComHide}_1}{\algo{HashCom}}$, the oracle returns a fresh random value.
+However, if the adversary does query $m_b \| r$ (or any other value ending with $r$), the games diverge: in $\game{\algo{ComHide}}{\algo{HashCom}}$, the oracle returns the value consistent with $c$, while in $\game{\algo{ComHide}_2}{\algo{HashCom}}$, the oracle returns a fresh random value.
 By the Difference Lemma (\autoref{lem:difference}), we can bound the difference between the games by the probability of this event:
 
 \begin{align*}
   \advantage{Hide}{\adv, \algo{HashCom}} &= \left|\Pr[\game{\algo{ComHide}}{\algo{HashCom}} = 1] - \frac{1}{2}\right| \\
-  &= \left|\Pr[\game{\algo{ComHide}}{\algo{HashCom}} = 1] - \Pr[\game{\algo{ComHide}_1}{\algo{HashCom}} = 1]\right| \\
+  &= \left|\Pr[\game{\algo{ComHide}}{\algo{HashCom}} = 1] - \Pr[\game{\algo{ComHide}_2}{\algo{HashCom}} = 1]\right| \\
   &\leq \Pr[\exists i \in [q] : x_i \text{ ends with } r]
 \end{align*}
 
