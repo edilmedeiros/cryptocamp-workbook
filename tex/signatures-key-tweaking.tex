@@ -142,7 +142,7 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
 \end{mysolution}
 \fi
 
-\begin{exercise}
+\begin{exercise}\label{ex:schnorrsig-euf-cma-tk-attack}
   Give a \ppt adversary that breaks the EUF-CMA-TK security of $\algo{SchnorrSig}$ with the $\algo{SchnorrTS}$ tweaking scheme. Hints:
   \begin{itemize}
     \item $\algo{SchnorrSig}$ does not use key prefixing.
@@ -205,7 +205,7 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
 \begin{exercise}
   Explain why we cannot directly apply the EUF-CMA security proof of $\algo{SchnorrSig}$ to prove EUF-CMA-TK security for $\algo{SchnorrSig}$ with SchnorrTS tweaking.
   
-  Hint: Examine what Lemma~\ref{lem:schnorr-to-single} guarantees about $\cdv$'s output and why this guarantee holds. Then consider whether a similar guarantee could be established for a reduction $\cdv'$ that uses an adversary $\adv$ breaking EUF-CMA-TK for $\algo{SchnorrSig}$ with SchnorrTS.
+  Hint: Examine what Lemma~\ref{lem:schnorr-to-single} guarantees about $\cdv$'s output and why this guarantee holds. Then consider whether a similar guarantee could be established for a reduction $\cdv'$ that uses an adversary $\adv$ breaking EUF-CMA-TK for $\algo{SchnorrSig}$ with SchnorrTS. Consider specifically the adversary from \autoref{ex:schnorrsig-euf-cma-tk-attack}.
 \end{exercise}
 
 \ifsolutions
@@ -224,7 +224,8 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
     \item The adversary outputs $(m^*, t^*, \sigma^*)$ for some tweak $t^*$.
     \item The winning condition checks $(m^*, t^*) \notin \mathcal{Q}$, not $m^* \notin \mathcal{Q}$.
     \item This means the adversary could have queried the signing oracle with $m^*$ with a different tweak $t' \neq t^*$.
-    \item If $m^*$ was queried to the signing oracle with tweak $t'$, and the adversary's forgery reuses the same $R$ from that query, then $T[R^*, m^*]$ has been assigned to a uniformly random value, which is unequal to $\algo{H}(R^*, m^*)$ with overwhelming probability.
+    \item Consider the adversary from \autoref{ex:schnorrsig-euf-cma-tk-attack}: it queries the signing oracle with $(m, t_0 = (0,1))$ and forges on $(m, t^* = (1,1))$, reusing the same $R$ from the signature.
+    \item When such an adversary queries $m$ with tweak $t'$, the reduction sets $T[R, m]$ to a random value. If the adversary's forgery reuses this $R$ with a different tweak $t^*$, then $T[R^*, m^*]$ has already been assigned, and it is unequal to $\algo{H}(R^*, m^*)$ with overwhelming probability.
   \end{itemize}
   
   Since $\algo{H}_{\cdv}(R^*, m^*) \neq \algo{H}(R^*, m^*)$ (with overwhelming probability), we cannot use the forking lemma's guarantee that $\algo{H}(R^*, m^*) \neq \algo{H}'(R^*, m^*)$ to extract the secret key from the two signatures.
