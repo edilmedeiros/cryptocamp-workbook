@@ -216,7 +216,7 @@ Unlike one-time signatures, the adversary can request signatures on multiple mes
   \]
   with $\advantage{Single}{\cdv, \algo{InpGen}}$ as defined in the forking lemma (\autoref{lem:fork}).
 
-  Moreover, when $\cdv$ returns a non-$\bot$ output $(z, \mathit{aux})$, then $z = (R^*, m^*)$, $\mathit{aux} = s^*$, and
+  Moreover, when $\cdv$ succeeds (returns $(z, \mathit{aux})$ for some $(z, \mathit{aux})$), then $z = (R^*, m^*)$, $\mathit{aux} = s^*$, and
   \[
     g^{s^*} = R^* \cdot X^{\algo{H}(R^*, m^*)}
   \]
@@ -404,7 +404,7 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
   Given a discrete logarithm instance $((\GG, p, g), X)$ where $X = g^x$ for unknown $x$, algorithm $\ddv$ works as follows:
   \begin{enumerate}
     \item Run the forking game $\game{\algo{Fork}}{\algo{InpGen}}[\cdv]$ with algorithm $\cdv$ from \autoref{lem:schnorr-to-single}
-    \item If the forking game returns $((R^*, m^*), s_1, (R^*, m^*), s_2) \neq \bot$, then we have:
+    \item If the forking game succeeds (returns $((R^*, m^*), s_1, (R^*, m^*), s_2)$), then we have:
     \begin{itemize}
       \item From the first execution: By \autoref{lem:schnorr-to-single}, we have $g^{s_1} = R^* \cdot X^{h_1}$ where $h_1 = \algo{H}(R^*, m^*)$
       \item From the second execution: By \autoref{lem:schnorr-to-single}, we have $g^{s_2} = R^* \cdot X^{h_2}$ where $h_2 = \algo{H}'(R^*, m^*)$
@@ -425,7 +425,7 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
     \item Output $x$
   \end{enumerate}
   
-  \emph{Success Probability:} Algorithm $\ddv$ succeeds in solving the discrete logarithm problem exactly when the forking game returns non-$\bot$ outputs. Therefore:
+  \emph{Success Probability:} Algorithm $\ddv$ succeeds in solving the discrete logarithm problem exactly when the forking game succeeds (returns a tuple). Therefore:
   \[
     \advantage{DLog}{\ddv, \grgen} = \advantage{Fork}{\cdv, \algo{InpGen}}
   \]

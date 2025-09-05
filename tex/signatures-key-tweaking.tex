@@ -246,7 +246,7 @@ The proof is left as an exercise (see \autoref{ex:schnorrkp-to-single}).
     \]
     with $\advantage{Single}{\cdv, \algo{InpGen}}$ as defined in the forking lemma (Lemma~\ref{lem:fork}).
     
-    Moreover, when $\cdv$ returns a non-$\bot$ output $(z, \mathit{aux})$, then $z = (R^*, \algo{TwPK}(X, t^*), m^*, t^*)$, $\mathit{aux} = s^*$, and
+    Moreover, when $\cdv$ succeeds (returns $(z, \mathit{aux})$ for some $(z, \mathit{aux})$), then $z = (R^*, \algo{TwPK}(X, t^*), m^*, t^*)$, $\mathit{aux} = s^*$, and
     \[
       g^{s^*} = R^* \cdot \algo{TwPK}(X, t^*)^{\algo{H}(R^*, \algo{TwPK}(X, t^*), m^*)}
     \]
