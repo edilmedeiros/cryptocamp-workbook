@@ -62,6 +62,11 @@ Before examining the consequences of random oracles, we present a simple lemma t
   where $\game{\algo{ROExample}_2}{}$ is defined in \autoref{fig:ro-game-hop}.
 \end{lemma}
 
+\begin{remark}
+  Unlike the security games we have seen so far where there are winning and losing conditions, $\algo{ROExample}$ simply runs the adversary and returns whatever the adversary outputs.
+  \autoref{lem:ro-indistinguishable} simply states that the adversary's behavior (its output distribution) is identical in both games with probability at least $1 - q/2^\secpar$.
+\end{remark}
+
 \begin{figure}[tbhp]
   \begin{center}
     \begin{tcolorbox}[width=8cm]
