@@ -136,8 +136,7 @@ The lemma's power lies in showing that despite the algorithm potentially behavin
 
 \begin{lemma}[Local Forking Lemma~\cite{AC:BelDaiLi19}]\label{lem:fork}
   Let $q \geq 1$ be an integer and $\algo{InpGen}$ be a randomized algorithm that outputs some input $\mathit{inp}$.
-  Let $\adv$ be a randomized algorithm that takes input $\mathit{inp}$ and randomness $\rho \in \mathcal{R}$, has oracle access to $\pcoracle{H}: \{0,1\}^* \rightarrow S$ where $|S| \geq 2^\secpar$, makes at most $q$ queries to $\pcoracle{H}$, and returns either $\bot$ or a pair $(z, \mathit{aux})$ where $z \in \{0,1\}^*$ and $\mathit{aux}$ is auxiliary output.
-  % TODO: The requirement $|S| \geq 2^\secpar$ is too strict when $S = \ZZ_p$ with prime $p \geq 2^{\secpar-1}$. Need to fix this.
+  Let $\adv$ be a randomized algorithm that takes input $\mathit{inp}$ and randomness $\rho \in \mathcal{R}$, has oracle access to $\pcoracle{H}: \{0,1\}^* \rightarrow S$, makes at most $q$ queries to $\pcoracle{H}$, and returns either $\bot$ or a pair $(z, \mathit{aux})$ where $z \in \{0,1\}^*$ and $\mathit{aux}$ is auxiliary output.
   
   For games $\game{\algo{Single}}{\algo{InpGen}}$ and $\game{\algo{Fork}}{\algo{InpGen}}$ defined in \autoref{fig:fork-games}, define:
   \begin{align*}
@@ -147,7 +146,7 @@ The lemma's power lies in showing that despite the algorithm potentially behavin
   
   Then:
   \[
-  \advantage{Fork}{\adv, \algo{InpGen}} \geq \advantage{Single}{\adv, \algo{InpGen}} \left( \frac{\advantage{Single}{\adv, \algo{InpGen}}}{q} - \frac{1}{2^\secpar} \right)
+  \advantage{Fork}{\adv, \algo{InpGen}} \geq \advantage{Single}{\adv, \algo{InpGen}} \left( \frac{\advantage{Single}{\adv, \algo{InpGen}}}{q} - \frac{1}{|S|} \right)
   \]
 \end{lemma}
 
@@ -304,17 +303,17 @@ The lemma's power lies in showing that despite the algorithm potentially behavin
     \item We then set $T'[z] \sample S$ (refreshing the value at the forking point)
     \item Second execution: $\adv$ queries $z' \gets \pcoracle{H'}(\rho) = T'[\rho] = z$ (unchanged) and outputs $(z', \bot) = (z, \bot)$
     \item The condition $z = z'$ is satisfied
-    \item The condition $T[z] \neq T'[z]$ is satisfied with probability $1 - \frac{1}{|S|} \geq 1 - \frac{1}{2^\secpar}$ (since $T'[z]$ was refreshed to a random value)
+    \item The condition $T[z] \neq T'[z]$ is satisfied with probability $1 - \frac{1}{|S|}$ (since $T'[z]$ was refreshed to a random value)
   \end{itemize}
   
   Therefore:
   \[
-  \advantage{Fork}{\adv, \algo{InpGen}} = 1 \cdot \left(1 - \frac{1}{2^\secpar}\right) = 1 - \frac{1}{2^\secpar}
+  \advantage{Fork}{\adv, \algo{InpGen}} = 1 \cdot \left(1 - \frac{1}{|S|}\right) = 1 - \frac{1}{|S|}
   \]
   
   This matches the forking lemma bound when $q = 1$ and $\advantage{Single}{\adv, \algo{InpGen}} = 1$:
   \[
-  1 \cdot \left(\frac{1}{1} - \frac{1}{2^\secpar}\right) = 1 - \frac{1}{2^\secpar}
+  1 \cdot \left(\frac{1}{1} - \frac{1}{|S|}\right) = 1 - \frac{1}{|S|}
   \]
 \end{mysolution}
 \fi
@@ -343,9 +342,9 @@ The lemma's power lies in showing that despite the algorithm potentially behavin
   x = (s - s') \cdot (T[z] - T'[z])^{-1} \bmod p
   \]
   
-  Since $\adv$ always succeeds, $\advantage{Single}{\adv, \algo{InpGen}} = 1$. By the forking lemma:
+  Since $\adv$ always succeeds, $\advantage{Single}{\adv, \algo{InpGen}} = 1$. By the forking lemma (noting that $S = \ZZ_p$ where $|S| = p \geq 2^{\secpar-1}$):
   \[
-  \Pr[\bdv \text{ outputs } x] = \advantage{Fork}{\adv, \algo{InpGen}} \geq 1 \cdot \left(\frac{1}{q} - \frac{1}{2^\secpar}\right) = \frac{1}{q} - \frac{1}{2^\secpar}
+  \Pr[\bdv \text{ outputs } x] = \advantage{Fork}{\adv, \algo{InpGen}} \geq 1 \cdot \left(\frac{1}{q} - \frac{1}{|S|}\right) \geq \frac{1}{q} - \frac{1}{2^{\secpar-1}}
   \]
 \end{mysolution}
 \fi
@@ -365,9 +364,9 @@ The lemma's power lies in showing that despite the algorithm potentially behavin
     \item First execution: $\adv$ outputs $(0, \bot)$
     \item We set $T'[0] \sample S$ (refreshing the value at key 0)
     \item Second execution: $\adv$ queries $h_0' = T'[0]$ (the refreshed value)
-    \item If $h_0' \bmod 2 = 0$: outputs $(0, \bot)$, so $z = z' = 0$ and $T[0] = h_0 \neq h_0' = T'[0]$ with probability $1 - \frac{1}{2^\secpar}$
+    \item If $h_0' \bmod 2 = 0$: outputs $(0, \bot)$, so $z = z' = 0$ and $T[0] = h_0 \neq h_0' = T'[0]$ with probability $1 - \frac{1}{|S|}$
     \item If $h_0' \bmod 2 = 1$: outputs $(h_0', \bot)$, so $z = 0 \neq h_0' = z'$ (fork fails)
-    \item Fork succeeds with probability $\frac{1}{2} \cdot (1 - \frac{1}{2^\secpar})$
+    \item Fork succeeds with probability $\frac{1}{2} \cdot (1 - \frac{1}{|S|})$
   \end{itemize}
   
   Case 2: $h_0 \bmod 2 = 1$ (happens with probability $\frac{1}{2}$)
@@ -383,13 +382,13 @@ The lemma's power lies in showing that despite the algorithm potentially behavin
   
   Therefore:
   \[
-  \advantage{Fork}{\adv, \algo{InpGen}} = \frac{1}{2} \cdot \frac{1}{2} \cdot \left(1 - \frac{1}{2^\secpar}\right) + \frac{1}{2} \cdot 1 = \frac{1}{4} - \frac{1}{2^{\secpar+2}} + \frac{1}{2} \approx \frac{3}{4}
+  \advantage{Fork}{\adv, \algo{InpGen}} = \frac{1}{2} \cdot \frac{1}{2} \cdot \left(1 - \frac{1}{|S|}\right) + \frac{1}{2} \cdot 1 = \frac{1}{4} \left(1 - \frac{1}{|S|}\right) + \frac{1}{2} \approx \frac{3}{4}
   \]
 \end{mysolution}
 \fi
 
 \begin{exercise}[Optional]
-  Find an algorithm $\adv$ making exactly $q$ queries for which $\advantage{Fork}{\adv, \algo{InpGen}}$ is as close to $\advantage{Single}{\adv, \algo{InpGen}} \left( \frac{\advantage{Single}{\adv, \algo{InpGen}}}{q} - \frac{1}{2^\secpar} \right)$ as possible.
+  Find an algorithm $\adv$ making exactly $q$ queries for which $\advantage{Fork}{\adv, \algo{InpGen}}$ is as close to $\advantage{Single}{\adv, \algo{InpGen}} \left( \frac{\advantage{Single}{\adv, \algo{InpGen}}}{q} - \frac{1}{|S|} \right)$ as possible.
 \end{exercise}
 
 \begin{exercise}[Optional]

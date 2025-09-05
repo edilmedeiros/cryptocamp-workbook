@@ -230,7 +230,7 @@ The proof is left as an exercise (see \autoref{ex:schnorr-to-single}).
   More precisely, for any \ppt adversary $\adv$ against the EUF-CMA security of $\algo{SchnorrSig}[\grgen, \algo{H}]$ making at most $q_s$ queries to the signing oracle and at most $q_h$ queries to the random oracle $\algo{H}$,
   there exists a \ppt adversary $\ddv$ against the discrete logarithm problem such that
   \[
-    \advantage{EUF-CMA}{\adv, \algo{SchnorrSig}[\grgen, \algo{H}]} \leq \frac{2 q_s(q_s + q_h)}{2^\secpar} + \sqrt{(q_h + 1) \left(\advantage{DLog}{\ddv, \grgen} + \frac{1}{2^\secpar}\right)}.
+    \advantage{EUF-CMA}{\adv, \algo{SchnorrSig}[\grgen, \algo{H}]} \leq \frac{2 q_s(q_s + q_h)}{2^\secpar} + \sqrt{(q_h + 1) \left(\advantage{DLog}{\ddv, \grgen} + \frac{1}{2^{\secpar-1}}\right)}.
   \]
 \end{theorem}
 
@@ -273,7 +273,7 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
 \begin{mysolution}
   From \autoref{thm:schnorr-euf-cma}:
   \[
-    \advantage{EUF-CMA}{\adv, \algo{SchnorrSig}} \leq \frac{q_s(q_s + q_h)}{2^\secpar} + \sqrt{(q_h + 1) \left(\advantage{DLog}{\ddv, \grgen} + \frac{1}{2^\secpar}\right)}
+    \advantage{EUF-CMA}{\adv, \algo{SchnorrSig}} \leq \frac{2 q_s(q_s + q_h)}{2^\secpar} + \sqrt{(q_h + 1) \left(\advantage{DLog}{\ddv, \grgen} + \frac{1}{2^{\secpar-1}}\right)}
   \]
   
   First, let's calculate the discrete logarithm advantage in the GGM:
@@ -283,17 +283,17 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
   
   Now for the EUF-CMA advantage. First term:
   \[
-    \frac{q_s(q_s + q_h)}{2^\secpar} \approx \frac{2^{10} \cdot 2^{85}}{2^{256}} = \frac{2^{95}}{2^{256}} = 2^{-161}
+    \frac{2 q_s(q_s + q_h)}{2^\secpar} \approx \frac{2 \cdot 2^{10} \cdot 2^{85}}{2^{256}} = \frac{2^{96}}{2^{256}} = 2^{-160}
   \]
   
   Second term:
   \[
-    \sqrt{(q_h + 1) \left(\advantage{DLog}{\ddv, \grgen} + \frac{1}{2^\secpar}\right)} \approx \sqrt{2^{85} \cdot 2^{-87}} = \sqrt{2^{-2}} = 2^{-1} = 0.5
+    \sqrt{(q_h + 1) \left(\advantage{DLog}{\ddv, \grgen} + \frac{1}{2^{\secpar-1}}\right)} \approx \sqrt{2^{85} \cdot \left(2^{-87} + 2^{-255}\right)} \approx \sqrt{2^{85} \cdot 2^{-87}} = \sqrt{2^{-2}} = 2^{-1} = 0.5
   \]
   
   Therefore:
   \[
-    \advantage{EUF-CMA}{\adv, \algo{SchnorrSig}} \leq 2^{-161} + 0.5 \approx 0.5
+    \advantage{EUF-CMA}{\adv, \algo{SchnorrSig}} \leq 2^{-160} + 0.5 \approx 0.5
   \]
   
   \emph{Comparison:} The discrete logarithm advantage is $2^{-87}$, while the EUF-CMA advantage for Schnorr signatures is approximately $2^{-1}$.
@@ -430,10 +430,10 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
     \advantage{DLog}{\ddv, \grgen} = \advantage{Fork}{\cdv, \algo{InpGen}}
   \]
   
-  By the forking lemma:
+  By the forking lemma (noting that $\pcoracle{H}$ maps to $\ZZ_p$ where $|\ZZ_p| = p \geq 2^{\secpar-1}$):
   \begin{align*}
-    \advantage{Fork}{\cdv, \algo{InpGen}} &\geq \advantage{Single}{\cdv, \algo{InpGen}} \left( \frac{\advantage{Single}{\cdv, \algo{InpGen}}}{q_h + 1} - \frac{1}{2^\secpar} \right)\\
-    &\geq  \frac{\advantage{Single}{\cdv, \algo{InpGen}}^2}{q_h + 1} - \frac{1}{2^\secpar}\\
+    \advantage{Fork}{\cdv, \algo{InpGen}} &\geq \advantage{Single}{\cdv, \algo{InpGen}} \left( \frac{\advantage{Single}{\cdv, \algo{InpGen}}}{q_h + 1} - \frac{1}{2^{\secpar-1}} \right)\\
+    &\geq  \frac{\advantage{Single}{\cdv, \algo{InpGen}}^2}{q_h + 1} - \frac{1}{2^{\secpar-1}}\\
   \end{align*}
   because $\advantage{Single}{\cdv, \algo{InpGen}} \leq 1$.
   
@@ -450,18 +450,18 @@ The proof is left as an exercise (see \autoref{ex:schnorr-euf-cma}).
   
   Therefore:
   \begin{align*}
-    \advantage{DLog}{\ddv, \grgen} &\geq \frac{\advantage{Single}{\cdv, \algo{InpGen}}^2}{q_h + 1} - \frac{1}{2^\secpar}\\
-    &\geq \frac{\left(\advantage{EUF-CMA}{\adv, \algo{SchnorrSig}[\grgen, \algo{H}]} - \frac{2 q_s(q_s + q_h)}{2^\secpar}\right)^2}{q_h + 1} - \frac{1}{2^\secpar}
+    \advantage{DLog}{\ddv, \grgen} &\geq \frac{\advantage{Single}{\cdv, \algo{InpGen}}^2}{q_h + 1} - \frac{1}{2^{\secpar-1}}\\
+    &\geq \frac{\left(\advantage{EUF-CMA}{\adv, \algo{SchnorrSig}[\grgen, \algo{H}]} - \frac{2 q_s(q_s + q_h)}{2^\secpar}\right)^2}{q_h + 1} - \frac{1}{2^{\secpar-1}}
   \end{align*}
   
   Rearranging:
   \[
-    (q_h + 1) \left(\advantage{DLog}{\ddv, \grgen} + \frac{1}{2^\secpar}\right) \geq \left(\advantage{EUF-CMA}{\adv, \algo{SchnorrSig}[\grgen, \algo{H}]} - \frac{2 q_s(q_s + q_h)}{2^\secpar}\right)^2
+    (q_h + 1) \left(\advantage{DLog}{\ddv, \grgen} + \frac{1}{2^{\secpar-1}}\right) \geq \left(\advantage{EUF-CMA}{\adv, \algo{SchnorrSig}[\grgen, \algo{H}]} - \frac{2 q_s(q_s + q_h)}{2^\secpar}\right)^2
   \]
   
   Therefore:
   \[
-    \advantage{EUF-CMA}{\adv, \algo{SchnorrSig}[\grgen, \algo{H}]} \leq \frac{2 q_s(q_s + q_h)}{2^\secpar} + \sqrt{(q_h + 1) \left(\advantage{DLog}{\ddv, \grgen} + \frac{1}{2^\secpar}\right)}
+    \advantage{EUF-CMA}{\adv, \algo{SchnorrSig}[\grgen, \algo{H}]} \leq \frac{2 q_s(q_s + q_h)}{2^\secpar} + \sqrt{(q_h + 1) \left(\advantage{DLog}{\ddv, \grgen} + \frac{1}{2^{\secpar-1}}\right)}
   \]
   
   $q_s, q_h$ are polynomial in $\secpar$ since $\adv$ is \ppt
