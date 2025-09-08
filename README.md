@@ -24,6 +24,11 @@ pacman -S texlive-binextra texlive-publishers texlive-bibtexextra texlive-mathsc
 nix shell nixpkgs#texlive.combined.scheme-full
 ```
 
+#### macOs
+```
+brew install --cask mactex
+```
+
 ### Compiling
 
 ```sh
