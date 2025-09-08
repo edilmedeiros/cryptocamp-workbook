@@ -86,7 +86,7 @@ The proof is left as an exercise (see \autoref{ex:preimage-either-reverse}).
     \begin{tcolorbox}[width=8cm]
       \begin{pchstack}[center]
         \procedure[headlinesep=1pt]{$\game{\Game~\algo{Collision}}{\algo{H}}$}{%
-          \kappa \gets \algo{H.Gen}(\secpar) \\
+          \kappa \gets \algo{H.Gen}(\secparam) \\
           (x,x') \gets \adv(\kappa) \\
           \pcreturn (x \neq x' \wedge \algo{H.Eval}(\kappa, x) = \algo{H.Eval}(\kappa, x'))
         }
