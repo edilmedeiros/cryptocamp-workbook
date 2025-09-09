@@ -20,7 +20,7 @@ Note that the challenger's commitment $h$ was given to the adversary before the 
 
 A similar technique is used in the MuSig multi-signature scheme~\cite{DCC:MPSW19} to simulate signing queries (i.e., to answer signing queries without knowledge of the secret key, as explained in the next section).
 
-\begin{figure}[tbhp]
+\begin{figure}[h!]
   \begin{center}
     \begin{tcolorbox}[width=\textwidth]
       \begin{pchstack}
@@ -74,17 +74,21 @@ The proof is left as an exercise (see \autoref{ex:prog-rom}).
 
 \subsection{The Forking Lemma}
 
-The forking lemma is a fundamental tool for analyzing algorithms that interact with random oracles. It considers an algorithm $\adv$ with oracle access to $\pcoracle{H}$, which is executed twice on different but related instances of the oracle:
+The forking lemma is a fundamental tool for analyzing algorithms that interact with random oracles.
+It considers an algorithm $\adv$ with oracle access to $\pcoracle{H}$, which is executed twice on different but related instances of the oracle:
 
 \begin{itemize}
   \item In the first execution, all random oracle responses are sampled uniformly as usual.
-  \item In the second execution, the responses are identical to those from the first execution up to a specific query called the \emph{forking point}, whose response is \emph{refreshed} (resampled with fresh randomness).
+  \item In the second execution, the responses are identical to those from the first execution except for a specific query called the \emph{forking point}, whose response is \emph{refreshed} (resampled with fresh randomness).
 \end{itemize}
+As a result, the two executions of $\adv$ proceed identically up to the forking point but may diverge afterwards.
+When $\adv$ succeeds, it outputs a tuple $(z, \mathit{aux})$, and the oracle query on input $z$ becomes the forking point.
 
-As a result, the two executions of $\adv$ proceed identically up to the forking point but diverge afterwards. The forking lemma quantifies how often an algorithm that succeeds in the first execution also succeeds in the second execution, where the oracle gives a different response at the forking point, and outputs the same value as in the first execution.
-The lemma's power lies in showing that despite the algorithm potentially behaving differently after receiving the refreshed random oracle response, it often still produces the same output.
+The forking lemma bounds the probability that $\adv$ succeeds in both executions and outputs the same value $z$, despite receiving different oracle responses for query $z$ in each execution.
+Even though it appears that $\adv$ can behave completely differently after receiving the refreshed oracle response, the forking lemma shows that $\adv$ frequently still outputs the same $z$ value.
+While the forking lemma appears very technical, it provides a powerful abstraction that we will invoke when proving the EUF-CMA security of Schnorr signatures (\autoref{thm:schnorr-euf-cma}).
 
-\begin{figure}[tbhp]
+\begin{figure}[h!]
   \begin{center}
     \begin{tcolorbox}[width=\textwidth]
       \begin{pchstack}[center]
