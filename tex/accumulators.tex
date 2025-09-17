@@ -71,7 +71,9 @@ In other words, the adversary can insert elements into the accumulator and obtai
         \procedure[headlinesep=1pt]{Oracle $\pcoracle{Insert}(x)$}{%
             \mathcal{Q} \gets \mathcal{Q} \cup \{x\} \\
             \state \gets \algo{Insert}(\params, \state, x) \\
-            \pcreturn \algo{Value}(\params, \state)
+            \pclinecomment{update global $v$} \\
+            v \gets \algo{Value}(\params, \state) \\
+            \pcreturn v
         }
         \pchspace
         \procedure[headlinesep=1pt]{Oracle $\pcoracle{ProveMembership}(x)$}{%
