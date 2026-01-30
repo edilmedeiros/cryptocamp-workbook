@@ -198,7 +198,7 @@ The proof is left as an exercise (see \autoref{ex:taproot-binding}).
     
     More formally, the hiding advantage is bounded by:
     \[
-    \advantage{Hide}{\adv, \algo{HashCom}_y} \leq \Pr[\algo{H.Eval}(0) = y] + \advantage{Hide}{\adv, \algo{HashCom}} \leq \frac{1}{2^\secpar} + \frac{2q}{2^\secpar}
+    \advantage{Hide}{\adv, \algo{HashCom}_y} \leq \Pr[\algo{H.Eval}(0) = y] + \advantage{Hide}{\adv, \algo{HashCom}} \leq \frac{1}{2^\secpar} + \frac{q}{2^\secpar}
     \]
     
     \item Let $y = \text{SHA256}(0)$. When instantiated with SHA256, we always have $\algo{H.Eval}(0) = y$, so the commitment becomes $C = \text{SHA256}(m)$ without any randomness. This is deterministic and therefore not hiding: given two messages $m_0, m_1$, the adversary can compute $\text{SHA256}(m_0)$ and $\text{SHA256}(m_1)$ and compare with $C$ to determine which message was committed to.
